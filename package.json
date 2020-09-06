@@ -1,0 +1,26 @@
+{
+  "name": "actapp_capstone",
+  "version": "1.0.0",
+  "description": "React/Redux full stack project - capstone for Digital Crafts Immersive bootcamp",
+  "main": "index.js",
+  "scripts": {
+    "db:install": "createdb actappcapdb",
+    "db:destroy": "dropdb actappcapdb",
+    "db:init": "psql actappcapdb < schema.sql",
+    "db:reset": "npm run db:destroy; npm run db:install && npm run db:init",
+    "dev": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dstonem/actapp_capstone.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dstonem/actapp_capstone/issues"
+  },
+  "homepage": "https://github.com/dstonem/actapp_capstone#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
