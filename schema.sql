@@ -39,10 +39,10 @@ create table actions (
 );
 
 create table action_resources (
-    name1 varchar,
-    url1 varchar,
-    pic1 varchar,
-    description1 varchar,
+    name varchar,
+    url varchar,
+    pic varchar,
+    description varchar,
     action_id integer references actions (id)
 );
 
@@ -163,56 +163,64 @@ VALUES
     ('Nice one!',4,1,'dstonem');
 
 --how do we join this actions table with the event_id table? or do we even need to?
--- insert into actions (cause,title,points,main_description,name1,url1,pic1,description1,name2,url2,pic2,description2,name3,url3,pic3,description3,name4,url4,pic4,description4,name5,url5,pic5,description5,icon,mainUrl,reading,repeatable,additionalInfo)
--- VALUES
---     ('blm',
---     'Support a Black-Owned Business',
---     50,
---     'Hungry? Need some retail therapy? Looking for something artisan? Support black-owned!',
---     'Check out our resources to get you started!',
---     '',
---     '',
---     '',
---     'Find a Business Near You',
---     -- how do I make this link dynamic based on the user's zipcode/city-state?
---     'https://www.yelp.com/search?find_desc=Black+Owned+Businesses&find_loc=${city}%2C+${state}&ns=1',
---     '/images/map.png',
---     'Click the image to find black-owned businesses in your area!',
---     'Apartment Therapy',
---     'https://www.apartmenttherapy.com/shop-black-owned-businesses-36759922',
---     '/images/apartment_therapy.jpg',
---     'Accessorize your apartment in style with these black-owned businesses.',
---     'Etsy',
---     'https://www.etsy.com/featured/blackownedshops?utm_source=google&utm_medium=cpc&utm_term=black%20owned%20businesses_e&utm_campaign=Search_US_Nonbrand_GGL_Politics_Social-Justice_New_LT_Exact&utm_ag=Black-Owned%2BShops&utm_custom1=_k_CjwKCAjw4rf6BRAvEiwAn2Q76mS6nTnAPKlrpGPLc5l2kOVGQPkLPVmQycgadigvXAR6jWHJkvvAuhoCf7gQAvD_BwE_k_&utm_content=go_10221881501_102356872975_439825159817_aud-301856855998:kwd-312223407776_c_&utm_custom2=10221881501&gclid=CjwKCAjw4rf6BRAvEiwAn2Q76mS6nTnAPKlrpGPLc5l2kOVGQPkLPVmQycgadigvXAR6jWHJkvvAuhoCf7gQAvD_BwE',
---     '/images/etsy.jpg',
---     'Shop black artisans on Etsy.',
---     'Black Owned Business Network',
---     'https://www.blackownedbiz.com/directory/',
---     '/images/blackbizowner.png',
---     'Looking for more professional services? Explore one of the largest directories of black-owned businesses.',
---     '/images/icons/blm_icon.png',
---     'http://yelp.com',
---     'https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',
---     true,
---     ''),
+insert into actions (cause,title,points,main_description,icon,mainUrl,reading,repeatable,additionalInfo)
+VALUES
+    ('blm',
+    'Support a Black-Owned Business',
+    50,
+    'Hungry? Need some retail therapy? Looking for something artisan? Support black-owned!',
+    '/images/icons/blm_icon.png',
+    'http://yelp.com',
+    'https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',
+    true,
+    ''),
+    ('blm','Support a Black Artist',50,'Buy some art!','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
+    ('blm','Support Organizations Supporting Black Life',50,'','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
+    ('blm','Share Black Organizations on Social Media',5,'dstonem','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
+    ('blm','Volunteer',5,'dstonem','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
+    ('climate','Support an Environmental Campaign',5,'dstonem','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
+    ('climate','Red-Meat-Free Week',5,'dstonem','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
+    ('climate','Purchase a Reusable Item',5,'dstonem','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
+    ('climate','Ride a Bike Instead of Drive (Three Times)',5,'dstonem','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
+    ('climate','Carpool',5,'dstonem','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
+    ('climate','Full Recycling Bin!',5,'dstonem','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
+    ('climate','Ride Public Transit Five Times',5,'dstonem','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
+    ('election','Vote Early',5,'dstonem','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
+    ('election','Vote By Mail',5,'dstonem','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
+    ('election','Attend a City/County Council Meeting',5,'dstonem','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
+    ('election','Support a Political Organization',5,'dstonem','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
+    ('election','Join a Political Organization',5,'dstonem','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
+    ('election','Sign a Petition',5,'dstonem','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
+    ('election','Learn About Local Politics',5,'dstonem','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
+    ('usps','Return 10 Pieces of Junk Mail',20,'For every 10 pieces of mail you return, $5 is raised for the USPS. It is your choice to write anything (or nothing) on the forms you are returning.','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,'');
 
---     ('blm','Support a Black Artist',50,'Buy some art!','name1','url1','pic1','description1','name2','url2','pic2','description2','name3','url3','pic3','description3','name4','url4','pic4','description4','name5','url5','pic5','description5','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
---     ('blm','Support Organizations Supporting Black Life',50,'','name1','url1','pic1','description1','name2','url2','pic2','description2','name3','url3','pic3','description3','name4','url4','pic4','description4','name5','url5','pic5','description5','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
---     ('blm','Share Black Organizations on Social Media',5,'dstonem','name1','url1','pic1','description1','name2','url2','pic2','description2','name3','url3','pic3','description3','name4','url4','pic4','description4','name5','url5','pic5','description5','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
---     ('blm','Volunteer',5,'dstonem','name1','url1','pic1','description1','name2','url2','pic2','description2','name3','url3','pic3','description3','name4','url4','pic4','description4','name5','url5','pic5','description5','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
---     ('climate','Support an Environmental Campaign',5,'dstonem','name1','url1','pic1','description1','name2','url2','pic2','description2','name3','url3','pic3','description3','name4','url4','pic4','description4','name5','url5','pic5','description5','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
---     ('climate','Red-Meat-Free Week',5,'dstonem','name1','url1','pic1','description1','name2','url2','pic2','description2','name3','url3','pic3','description3','name4','url4','pic4','description4','name5','url5','pic5','description5','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
---     ('climate','Purchase a Reusable Item',5,'dstonem','name1','url1','pic1','description1','name2','url2','pic2','description2','name3','url3','pic3','description3','name4','url4','pic4','description4','name5','url5','pic5','description5','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
---     ('climate','Ride a Bike Instead of Drive (Three Times)',5,'dstonem','name1','url1','pic1','description1','name2','url2','pic2','description2','name3','url3','pic3','description3','name4','url4','pic4','description4','name5','url5','pic5','description5','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
---     ('climate','Carpool',5,'dstonem','name1','url1','pic1','description1','name2','url2','pic2','description2','name3','url3','pic3','description3','name4','url4','pic4','description4','name5','url5','pic5','description5','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
---     ('climate','Full Recycling Bin!',5,'dstonem','name1','url1','pic1','description1','name2','url2','pic2','description2','name3','url3','pic3','description3','name4','url4','pic4','description4','name5','url5','pic5','description5','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
---     ('climate','Ride Public Transit Five Times',5,'dstonem','name1','url1','pic1','description1','name2','url2','pic2','description2','name3','url3','pic3','description3','name4','url4','pic4','description4','name5','url5','pic5','description5','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
---     ('election','Vote Early',5,'dstonem','name1','url1','pic1','description1','name2','url2','pic2','description2','name3','url3','pic3','description3','name4','url4','pic4','description4','name5','url5','pic5','description5','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
---     ('election','Vote By Mail',5,'dstonem','name1','url1','pic1','description1','name2','url2','pic2','description2','name3','url3','pic3','description3','name4','url4','pic4','description4','name5','url5','pic5','description5','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
---     ('election','Attend a City/County Council Meeting',5,'dstonem','name1','url1','pic1','description1','name2','url2','pic2','description2','name3','url3','pic3','description3','name4','url4','pic4','description4','name5','url5','pic5','description5','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
---     ('election','Support a Political Organization',5,'dstonem','name1','url1','pic1','description1','name2','url2','pic2','description2','name3','url3','pic3','description3','name4','url4','pic4','description4','name5','url5','pic5','description5','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
---     ('election','Join a Political Organization',5,'dstonem','name1','url1','pic1','description1','name2','url2','pic2','description2','name3','url3','pic3','description3','name4','url4','pic4','description4','name5','url5','pic5','description5','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
---     ('election','Sign a Petition',5,'dstonem','name1','url1','pic1','description1','name2','url2','pic2','description2','name3','url3','pic3','description3','name4','url4','pic4','description4','name5','url5','pic5','description5','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
---     ('election','Learn About Local Politics',5,'dstonem','name1','url1','pic1','description1','name2','url2','pic2','description2','name3','url3','pic3','description3','name4','url4','pic4','description4','name5','url5','pic5','description5','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
---     ('usps','Return 10 Pieces of Junk Mail',20,'For every 10 pieces of mail you return, $5 is raised for the USPS. It is your choice to write anything (or nothing) on the forms you are returning.','name1','url1','pic1','description1','name2','url2','pic2','description2','name3','url3','pic3','description3','name4','url4','pic4','description4','name5','url5','pic5','description5','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,'');
-
+insert into action_resources (name,url,pic,description,action_id)
+values 
+    (
+        'Find a Business Near You',
+        'https://www.yelp.com/search?find_desc=Black+Owned+Businesses&find_loc=${city}%2C+${state}&ns=1',
+        '/images/map.png',
+        'Click the image to find black-owned businesses in your area!',
+        1
+    ),
+    (
+        'Apartment Therapy',
+        'https://www.apartmenttherapy.com/shop-black-owned-businesses-36759922',
+        '/images/apartment_therapy.jpg',
+        'Accessorize your apartment in style with these black-owned businesses.',
+        1
+    ),
+    (
+        'Etsy',
+        'https://www.etsy.com/featured/blackownedshops?utm_source=google&utm_medium=cpc&utm_term=black%20owned%20businesses_e&utm_campaign=Search_US_Nonbrand_GGL_Politics_Social-Justice_New_LT_Exact&utm_ag=Black-Owned%2BShops&utm_custom1=_k_CjwKCAjw4rf6BRAvEiwAn2Q76mS6nTnAPKlrpGPLc5l2kOVGQPkLPVmQycgadigvXAR6jWHJkvvAuhoCf7gQAvD_BwE_k_&utm_content=go_10221881501_102356872975_439825159817_aud-301856855998:kwd-312223407776_c_&utm_custom2=10221881501&gclid=CjwKCAjw4rf6BRAvEiwAn2Q76mS6nTnAPKlrpGPLc5l2kOVGQPkLPVmQycgadigvXAR6jWHJkvvAuhoCf7gQAvD_BwE',
+        '/images/etsy.jpg',
+        'Shop black artisans on Etsy.',
+        1
+    ),
+    (
+        'Black Owned Business Network',
+        'https://www.blackownedbiz.com/directory/',
+        '/images/blackbizowner.png',
+        'Looking for more professional services? Explore one of the largest directories of black-owned businesses.',
+        1
+    );
