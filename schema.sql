@@ -10,14 +10,14 @@ create table users (
     state VARCHAR not null,
     zipcode VARCHAR not null,
     -- this is where the person's representation info will go
-    district text,
-    municipality text,
+    nextElectionDate date,
+    pollingPlace varchar,
     profilePic VARCHAR,
     points integer,
     firstTimeUser boolean default true,
     race text not null,
-    birthdate date not null,
-    gender text not null
+    gender text not null,
+    birthdate date not null
 );
 
 create table causes (
@@ -105,13 +105,22 @@ create table hashtags_posts (
 );
 
 -- edit this to fit the new structure
-insert into users (username,password,firstName,lastName,email,streetaddress,city,state,zipcode,cause_one,cause_two,cause_three)
+insert into users (username,password,firstName,lastName,email,streetaddress,city,state,zipcode,nextElectionDate,pollingPlace,profilePic,points,firstTimeUser,race,gender,birthdate)
 
 values 
-    ('dstonem','123456','dylan','stone-miller','dstonemiller@gmail.com', '1234 Marsh Trail Circle', 'Sandy Springs', 'Georgia', '29307','blm','election','climate'),
-    ('npatton','123456','nathan','patton','npatton@gmail.com', '1234 Ashford Road', 'Atlanta', 'Georgia', '22236','blm','election','climate'),
-    ('fgarcia','123456','frida','garcia','fgar@gmail.com', '1234 Ashford Road', 'Atlanta', 'Georgia', '22236','blm','election','climate')
+    ('dstonem','123456','dylan','stone-miller','dstonemiller@gmail.com', '1234 Marsh Trail Circle', 'Sandy Springs', 'Georgia', '29307','GA-5','City of Atlanta','11-3-2020','123 Fake Street','headshot_manbun.png','100','true','white','m','09/28/1990'),
+    ('npatton','123456','nathan','patton','npatton@gmail.com', '1234 Ashford Road', 'Atlanta', 'Georgia', '22236','GA-5','City of Atlanta','11-3-2020','123 Fake Street','headshot_manbun.png','100','true','white','m','09/28/1990'),
+    ('fgarcia','123456','frida','garcia','fgar@gmail.com', '1234 Ashford Road', 'Atlanta', 'Georgia', '22236','GA-5','City of Atlanta','11-3-2020','123 Fake Street','headshot_manbun.png','100','true','white','m','09/28/1990')
 ;
+
+insert into causes (text,user_id) 
+VALUES
+    ('blm',1),
+    ('blm',2),
+    ('blm',3),
+    ('climate',1),
+    ('climate',2),
+    ('usps',1);
 
 insert into attendees (user_id,event_id)
 
@@ -221,4 +230,6 @@ VALUES
     ('election','Support a Political Organization',5,'dstonem','name1','url1','pic1','description1','name2','url2','pic2','description2','name3','url3','pic3','description3','name4','url4','pic4','description4','name5','url5','pic5','description5','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
     ('election','Join a Political Organization',5,'dstonem','name1','url1','pic1','description1','name2','url2','pic2','description2','name3','url3','pic3','description3','name4','url4','pic4','description4','name5','url5','pic5','description5','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
     ('election','Sign a Petition',5,'dstonem','name1','url1','pic1','description1','name2','url2','pic2','description2','name3','url3','pic3','description3','name4','url4','pic4','description4','name5','url5','pic5','description5','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
-    ('election','Learn About Local Politics',5,'dstonem','name1','url1','pic1','description1','name2','url2','pic2','description2','name3','url3','pic3','description3','name4','url4','pic4','description4','name5','url5','pic5','description5','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,'');
+    ('election','Learn About Local Politics',5,'dstonem','name1','url1','pic1','description1','name2','url2','pic2','description2','name3','url3','pic3','description3','name4','url4','pic4','description4','name5','url5','pic5','description5','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
+    ('usps','Return 10 Pieces of Junk Mail',20,'For every 10 pieces of mail you return, $5 is raised for the USPS. It is your choice to write anything (or nothing) on the forms you are returning.','name1','url1','pic1','description1','name2','url2','pic2','description2','name3','url3','pic3','description3','name4','url4','pic4','description4','name5','url5','pic5','description5','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,'');
+
