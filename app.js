@@ -14,7 +14,7 @@ const fileUpload = require('express-fileupload')
 
 // const User = require('./models/users-db-logic')()
 // const Policy = require('./models/policies-db-logic')()
-// const Post = require('./models/posts-db-logic')()
+const Post = require('./models/posts-db-logic')()
 // const Actions = require('./models/actions-db-logic')()
 
 app.use(express.json())
