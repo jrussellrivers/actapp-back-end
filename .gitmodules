@@ -1,0 +1,3 @@
+[submodule "actapp_capstone_react_native"]
+	path = actapp_capstone_react_native
+	url = https://github.com/dstonem/actapp_capstone_react_native.git
