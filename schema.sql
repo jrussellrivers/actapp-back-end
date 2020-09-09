@@ -157,10 +157,14 @@ values
     (2, 5),
     (2, 6);
 
-insert into comments (comment,post_id,user_id,username)
+insert into comments (comment,post_id,user_id,username,created_at)
 VALUES
-    ('Nice! Love that place',1,2,'npatton'),
-    ('Nice one!',4,1,'dstonem');
+    ('Nice! Love that place',1,2,'npatton','2004-10-24 10:23:54'),
+    ('Nice! That place is dope',1,3,'fgarcia','2004-10-25 10:23:54'),
+    ('Nice one!',4,1,'dstonem','2004-10-25 10:23:54'),
+    ('Comment 1',2,1,'dstonem','2004-10-23 10:23:54'),
+    ('Comment 2',2,2,'npatton','2004-10-24 10:23:54'),
+    ('Comment 3',2,3,'fgarcia','2004-10-25 10:23:54');
 
 --how do we join this actions table with the event_id table? or do we even need to?
 insert into actions (cause,title,points,main_description,icon,mainUrl,reading,repeatable,additionalInfo)
