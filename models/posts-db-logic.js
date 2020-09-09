@@ -19,6 +19,10 @@ const Post = () => {
         return await db.none(`insert into posts (picurl,body,username,event_id) values ('${image}','${text}','${username}',${event_id})`)
     }
 
+    const getAllComments = async() => {
+        return await db.any(`select * from comments`)
+    }
+
     const getCommentsByPost = async post_id => {
         return await db.any(`select * from comments where post_id = ${post_id}`)
     }
@@ -61,7 +65,8 @@ const Post = () => {
         addComment,
         getLikesByPost,
         addLike,
-        checkIfUserAlreadyLikedPost
+        checkIfUserAlreadyLikedPost,
+        getAllComments
     }
 }
 
