@@ -185,7 +185,7 @@ VALUES
     ('climate','Carpool',5,'dstonem','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
     ('climate','Full Recycling Bin!',5,'dstonem','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
     ('climate','Ride Public Transit Five Times',5,'dstonem','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
-    ('election','Vote Early',5,'dstonem','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
+    --('election','Vote Early',5,'dstonem','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
     ('election','Vote By Mail',5,'dstonem','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
     ('election','Attend a City/County Council Meeting',5,'dstonem','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
     ('election','Support a Political Organization',5,'dstonem','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
@@ -223,4 +223,33 @@ values
         '/images/blackbizowner.png',
         'Looking for more professional services? Explore one of the largest directories of black-owned businesses.',
         1
-    );
+    ),
+    (
+        'Volunteer Match',
+        --XXXXXXXXXX need to change on the frontend, plus these have different categories
+        'https://www.volunteermatch.org/search?l=atlanta%2C+ga%2C+usa&cats=33',
+        'https://upload.wikimedia.org/wikipedia/commons/e/ea/VolunteerMatch_official.png',
+        'Find a volunteer opportunity near you, in any cause!',
+        5 -- vulunteer
+    ),
+    (
+        'One Week of Vegetarian Meals', -- red-meat-free week
+        'https://www.thespruceeats.com/best-vegetarian-meal-delivery-services-4768445',
+        'https://cdn.hellofresh.com/de/cms/raf/hellofresh-logo.png',
+        'Order a week of vegetarian meals from any of these popular meal services!',
+        7
+    ),
+    (
+        'List of Reusable Items',
+        'https://www.growingagreenfamily.com/50-reusable-goods-vs-disposable-goods/',
+        'https://cdn.shopify.com/s/files/1/2237/5935/products/Bundle_Aqua_Set-1_25879b59-4530-4750-898e-0ea3542a68ec_1200x.jpg?v=1569076907',
+        'Buy a reusable item and earn points!',
+        8
+    ),
+    (
+        'Bike Share Programs Near You',
+        'https://www.google.com/search?q=bike+share+programs+near+me&rlz=1C5CHFA_enUS903US905&oq=bike+share+programs+near+&aqs=chrome.1.69i57j33l6.4462j0j4&sourceid=chrome&ie=UTF-8',
+        'https://media.wired.com/photos/59328fcc5c4fbd732b5538f4/master/w_660,c_limit/bike-share-660.jpg',
+        'Ride a bike three times, post your bike share receipt or (safely) take photos of you biking to work!',
+        9
+    )
