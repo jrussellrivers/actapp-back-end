@@ -55,6 +55,10 @@ const Post = () => {
         }
         return false
     }
+
+    const getAllLikes = async () => {
+        return await db.any(`select * from likes`)
+    }
     
     return {
         getAllPosts,
@@ -66,7 +70,8 @@ const Post = () => {
         getLikesByPost,
         addLike,
         checkIfUserAlreadyLikedPost,
-        getAllComments
+        getAllComments,
+        getAllLikes
     }
 }
 
