@@ -181,6 +181,11 @@ app.get('/likes/:post_id', async (req,res)=>{
     res.send(likes)
 })
 
+app.get('/likes', async (req,res)=>{
+    let likes = await Post.getAllLikes()
+    res.send(likes)
+})
+
 app.post('/addLike/:post_id', async (req,res)=>{
     console.log(req.user,'239')
     let addedLike = await Post.addLike(req.user.id,req.params.post_id)
