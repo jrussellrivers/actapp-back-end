@@ -171,8 +171,8 @@ app.get('/comments/:post_id', async (req,res)=>{
     res.send(comments)
 })
 
-app.post('/addComment/:post_id', async (req,res)=>{
-    let comment = await Post.addComment(req.body.comment,req.user.id,req.user.username,req.params.post_id)
+app.post('/addComment/:comment/:postId', async (req,res)=>{
+    let comment = await Post.addComment(req.params.comment,1,'dstonem',req.params.postId)
     return res.send(comment)
 })
 
