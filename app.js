@@ -160,6 +160,12 @@ app.post('/upload/:event_id', async (req,res)=>{
     })
 })
 
+app.get('/comments', async (req,res)=>{
+    let comments = await Post.getAllComments()
+    res.send(comments)
+})
+
+
 app.get('/comments/:post_id', async (req,res)=>{
     let comments = await Post.getCommentsByPost(req.params.post_id)
     res.send(comments)
