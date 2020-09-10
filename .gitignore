@@ -1,3 +1,5 @@
 /node_modules
 config.js
 package-lock.json
+lib/jwtRS256.pem
+lib/jwtRS256.pem.pub
