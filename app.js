@@ -11,6 +11,7 @@ const bcrypt = require('bcrypt')
 const SALT_ROUNDS = 10
 const db = require('./db_connection')
 const fileUpload = require('express-fileupload')
+require('./models/user');
 
 const User = require('./models/users-db-logic')()
 // const Policy = require('./models/policies-db-logic')()
@@ -26,6 +27,7 @@ app.use(fileUpload())
 app.use(eS)
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(require('./routes'));
 
 passport.use(new Strategy((username,password,callback)=>{
     db.one(`SELECT * FROM users WHERE username='${username}'`)
