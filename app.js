@@ -68,9 +68,10 @@ const createUser = async (req,res,next) => {
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
 
-app.post('/login', passport.authenticate('local'), (req,res) => {
-    res.send(req.user)
-})
+// app.post('/login', passport.authenticate('local'), (req,res) => {
+//     console.log('othrer routes')
+//     res.send(req.user)
+// })
 
 //XXXXXXXXXXX figure out how to send the right thing and automatically redirect to login from the frontend
 app.post('/login/register', createUser, async (req,res,next) => {

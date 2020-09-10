@@ -4,18 +4,44 @@ const router = require('express').Router();
 const User = mongoose.model('User');
 const utils = require('../lib/utils');
 const db = require('../db_connection')
+// const pass = require('passport')
+// const passport = require('../config/passport')(pass)
 
-const createUser = async (req,res,next) => {
-    console.log(req.body)
-    let newUser = await db.one(`INSERT INTO users (username,password,firstName,lastName,email,streetaddress,city,state,zipcode,race,gender,birthdate) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) RETURNING *`,[req.body.username,hash,req.body.firstName,req.body.lastName,req.body.email,req.body.streetaddress,req.body.city,req.body.state,req.body.zipcode,req.body.race,req.body.gender,req.body.birthdate])
-    next()
-    return newUser
-}
+// PASSPORT STUFF
+const passport = require('passport')
+require('../config/passport')(passport)
+// const Strategy = require('passport-local').Strategy
+// const bcrypt = require('bcrypt')
+// const SALT_ROUNDS = 10
+// router.use(passport.initialize());
+// router.use(passport.session());
+
+// passport.use(new Strategy((username,password,callback)=>{
+//     db.one(`SELECT * FROM users WHERE username='${username}'`)
+//     .then(u=>{
+//         bcrypt.compare(password, u.password)
+//         .then(result=>{
+//             if(!result) return callback(null,false)
+//             return callback(null, u)
+//         })
+//     })
+//     .catch(()=>callback(null,false))
+// }))
+// passport.serializeUser((user,callback)=>callback(null, user.id))
+// passport.deserializeUser((id,callback)=>{
+//     db.one(`SELECT * FROM users WHERE id='${id}'`)
+//     .then(u=>{
+//         return callback(null,u)
+//     })
+//     .catch(()=>callback({'not-found':'No User With That ID Is Found'}))
+// })
+
+// router.use(passport)
 
 // http://localhost:3000/users/login
 // Validate an existing user and issue a JWT
 router.post('/login', function(req, res, next){
-    
+    console.log('yo')
 
     // User.findOne({ username: req.body.username })
     db.one(`SELECT * FROM users WHERE username='${req.body.username}'`)
@@ -74,6 +100,20 @@ router.post('/register', async function(req, res, next){
       })
       .catch(err => next(err));
 
+});
+// passport.authenticate('jwt', { session: false }),
+router.get('/user', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+    console.log('omg')
+    console.log(req.user, '104')
+    if (req.isAuthenticated()) {
+        // Send the route data 
+        console.log('wow')
+        res.status(200).send(req.user);
+    } else {
+        // Not authorized
+        console.log('fuck')
+        res.status(401).send('You are not authorized to view this');
+    }
 });
 
 module.exports = router;
