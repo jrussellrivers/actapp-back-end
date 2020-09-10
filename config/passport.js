@@ -6,7 +6,7 @@ const path = require('path');
 const User = require('mongoose').model('User');
 
 // Go up one directory, then look for file name
-const pathToKey = path.join(__dirname, '..', 'id_rsa_pub.pem');
+const pathToKey = path.join(__dirname, '..', '/lib/jwtRS256.pem.pub');
 
 // The verifying public key
 const PUB_KEY = fs.readFileSync(pathToKey, 'utf8');
@@ -20,11 +20,11 @@ const options = {
 
 // app.js will pass the global passport object here, and this function will configure it
 module.exports = (passport) => {
-  
+
     // The JWT payload is passed into the verify callback
     passport.use(new JwtStrategy(options, function(jwt_payload, done) {
         // Since we are here, the JWT is valid!
-        
+
         // We will assign the `sub` property on the JWT to the database ID of user
         User.findOne({_id: jwt_payload.sub}, function(err, user) {
             
