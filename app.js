@@ -53,9 +53,9 @@ const checkIsLoggedIn = (req,res,next) =>{
 }
 
 const createUser = async (req,res,next) => {
+    console.log(req.body)
     let hash = await bcrypt.hash(req.body.password, SALT_ROUNDS)
-    //XXXXXXXXXXXXX change the insert values/columns
-    let newUser = await db.one(`INSERT INTO users (username,password,firstName,lastName,email,streetaddress,city,state,zipcode,cause_one,cause_two,cause_three) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) RETURNING *`,[req.body.username,hash,req.body.firstName,req.body.lastName,req.body.email,req.body.streetaddress,req.body.city,req.body.state,req.body.zipcode,req.body.cause1,req.body.cause2,req.body.cause3])
+    let newUser = await db.one(`INSERT INTO users (username,password,firstName,lastName,email,streetaddress,city,state,zipcode,race,gender,birthdate) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) RETURNING *`,[req.body.username,hash,req.body.firstName,req.body.lastName,req.body.email,req.body.streetaddress,req.body.city,req.body.state,req.body.zipcode,req.body.race,req.body.gender,req.body.birthdate])
     next()
     return newUser
 }
@@ -72,7 +72,7 @@ app.post('/login', passport.authenticate('local'), (req,res) => {
 
 //XXXXXXXXXXX figure out how to send the right thing and automatically redirect to login from the frontend
 app.post('/login/register', createUser, async (req,res,next) => {
-    res.redirect('/#/LoginForm')
+    res.send(req.user)
 })
 
 // app.post('/login/survey', async (req, res, next) => {

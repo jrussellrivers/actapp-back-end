@@ -14,7 +14,7 @@ create table users (
     pollingPlace varchar,
     profilePic VARCHAR,
     points integer,
-    firstTimeUser boolean default true,
+    registerDate timestamp default now(),
     race text not null,
     gender text not null,
     birthdate date not null
@@ -100,12 +100,12 @@ create table hashtags_posts (
 );
 
 -- edit this to fit the new structure
-insert into users (username,password,firstName,lastName,email,streetaddress,city,state,zipcode,nextElectionDate,pollingPlace,profilePic,points,firstTimeUser,race,gender,birthdate)
+insert into users (username,password,firstName,lastName,email,streetaddress,city,state,zipcode,nextElectionDate,pollingPlace,profilePic,points,race,gender,birthdate)
 
 values 
-    ('dstonem','123456','dylan','stone-miller','dstonemiller@gmail.com', '1234 Marsh Trail Circle', 'Sandy Springs', 'Georgia', '29307','11-3-2020','123 Fake Street','headshot_manbun.png','100','true','white','m','09/28/1990'),
-    ('npatton','123456','nathan','patton','npatton@gmail.com', '1234 Ashford Road', 'Atlanta', 'Georgia', '22236','11-3-2020','123 Fake Street','headshot_manbun.png','100','true','white','m','09/28/1990'),
-    ('fgarcia','123456','frida','garcia','fgar@gmail.com', '1234 Ashford Road', 'Atlanta', 'Georgia', '22236','11-3-2020','123 Fake Street','headshot_manbun.png','100','true','white','m','09/28/1990')
+    ('dstonem','123456','dylan','stone-miller','dstonemiller@gmail.com', '1234 Marsh Trail Circle', 'Sandy Springs', 'Georgia', '29307','11-3-2020','123 Fake Street','headshot_manbun.png','100','white','m','09/28/1990'),
+    ('npatton','123456','nathan','patton','npatton@gmail.com', '1234 Ashford Road', 'Atlanta', 'Georgia', '22236','11-3-2020','123 Fake Street','headshot_manbun.png','100','white','m','09/28/1990'),
+    ('fgarcia','123456','frida','garcia','fgar@gmail.com', '1234 Ashford Road', 'Atlanta', 'Georgia', '22236','11-3-2020','123 Fake Street','headshot_manbun.png','100','white','m','09/28/1990')
 ;
 
 insert into causes (cause,user_id) 
