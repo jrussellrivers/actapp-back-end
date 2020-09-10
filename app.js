@@ -12,7 +12,7 @@ const SALT_ROUNDS = 10
 const db = require('./db_connection')
 const fileUpload = require('express-fileupload')
 
-// const User = require('./models/users-db-logic')()
+const User = require('./models/users-db-logic')()
 // const Policy = require('./models/policies-db-logic')()
 const Post = require('./models/posts-db-logic')()
 // const Actions = require('./models/actions-db-logic')()
@@ -84,9 +84,11 @@ app.post('/login/register', createUser, async (req,res,next) => {
 //     }
 // })
 
-app.get('/user', async (req,res)=>{
-    let user = await User.getUser(req.user.username)
-    res.send(user)
+app.get('/user', (req,res)=>{
+    console.log('start')
+    console.log(req.user)
+    // let user = await User.getUser(req.user.username)
+    res.send(req.user)
 })
 
 app.post('/user/profilePic/:username', async (req,res)=>{
