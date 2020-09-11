@@ -5,10 +5,10 @@ const {secret} = require('./config')
 const port = 3333
 const session = require('express-session')
 const eS = session(secret)
-const passport = require('passport')
-const Strategy = require('passport-local').Strategy
-const bcrypt = require('bcrypt')
-const SALT_ROUNDS = 10
+// const passport = require('passport')
+// const Strategy = require('passport-local').Strategy
+// const bcrypt = require('bcrypt')
+// const SALT_ROUNDS = 10
 const db = require('./db_connection')
 const multer = require('multer')
 const fileUpload = require('express-fileupload')
@@ -19,6 +19,19 @@ const User = require('./models/users-db-logic')()
 const Post = require('./models/posts-db-logic')()
 // const Actions = require('./models/actions-db-logic')()
 
+const JwtStrategy = require('passport-jwt').Strategy
+const ExtractJwt = require('passport-jwt').ExtractJwt;
+const fs = require('fs');
+const path = require('path');
+const passport = require('passport')
+const pathToKey = path.join(__dirname, './lib/jwtRS256.pem');
+const PUB_KEY = fs.readFileSync(pathToKey, 'utf8');
+const options = {
+    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+    secretOrKey: PUB_KEY,
+    algorithms: ['RS256']
+};
+
 app.use(express.json())
 app.use(express.static(__dirname+"/site"))
 app.use(cors())
@@ -26,29 +39,60 @@ app.use(express.urlencoded({extended: true}))
 app.use(fileUpload())
 
 app.use(eS)
-app.use(passport.initialize());
-app.use(passport.session());
+// app.use(passport.initialize());
+// app.use(passport.session());
 app.use(require('./routes'));
 
-passport.use(new Strategy((username,password,callback)=>{
-    db.one(`SELECT * FROM users WHERE username='${username}'`)
-    .then(u=>{
-        bcrypt.compare(password, u.password)
-        .then(result=>{
-            if(!result) return callback(null,false)
-            return callback(null, u)
-        })
+app.use(passport.initialize());
+passport.use(new JwtStrategy(options, function(jwt_payload, done) {
+    console.log(jwt_payload.sub)
+    console.log(jwt_payload)
+    console.log('using passport')
+    db.one(`SELECT * FROM users WHERE id=${jwt_payload.sub}`)
+    .then(user=>{
+        if (user) {
+            console.log(user,'passport')
+            // Since we are here, the JWT is valid and our user is valid, so we are authorized!
+            return done(null, user);
+        } else {
+            console.log('Else', 'passport')
+            return done(null, false);
+        }
     })
-    .catch(()=>callback(null,false))
 }))
-passport.serializeUser((user,callback)=>callback(null, user.id))
-passport.deserializeUser((id,callback)=>{
-    db.one(`SELECT * FROM users WHERE id='${id}'`)
-    .then(u=>{
-        return callback(null,u)
-    })
-    .catch(()=>callback({'not-found':'No User With That ID Is Found'}))
-})
+app.get('/user', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+    console.log('omg')
+    console.log(req.user, '104')
+    if (req.isAuthenticated()) {
+        // Send the route data 
+        console.log('wow')
+        res.status(200).send(req.user);
+    } else {
+        // Not authorized
+        console.log('fuck')
+        res.status(401).send('You are not authorized to view this');
+    }
+});
+
+// passport.use(new Strategy((username,password,callback)=>{
+//     db.one(`SELECT * FROM users WHERE username='${username}'`)
+//     .then(u=>{
+//         bcrypt.compare(password, u.password)
+//         .then(result=>{
+//             if(!result) return callback(null,false)
+//             return callback(null, u)
+//         })
+//     })
+//     .catch(()=>callback(null,false))
+// }))
+// passport.serializeUser((user,callback)=>callback(null, user.id))
+// passport.deserializeUser((id,callback)=>{
+//     db.one(`SELECT * FROM users WHERE id='${id}'`)
+//     .then(u=>{
+//         return callback(null,u)
+//     })
+//     .catch(()=>callback({'not-found':'No User With That ID Is Found'}))
+// })
 
 const checkIsLoggedIn = (req,res,next) =>{
     if(req.isAuthenticated()) return next()
@@ -88,12 +132,12 @@ app.post('/login/register', createUser, async (req,res,next) => {
 //     }
 // })
 
-app.get('/user', (req,res)=>{
-    console.log('start')
-    console.log(req.user)
-    // let user = await User.getUser(req.user.username)
-    res.send(req.user)
-})
+// app.get('/user', (req,res)=>{
+//     console.log('start')
+//     console.log(req.user)
+//     // let user = await User.getUser(req.user.username)
+//     res.send(req.user)
+// })
 
 app.post('/user/profilePic/:username', async (req,res)=>{
     if(req.files === null) {
@@ -198,8 +242,8 @@ app.get('/comments/:post_id', async (req,res)=>{
     res.send(comments)
 })
 
-app.post('/addComment/:comment/:postId', async (req,res)=>{
-    let comment = await Post.addComment(req.params.comment,1,'dstonem',req.params.postId)
+app.post('/addComment/:comment/:postId/:userId/:username', async (req,res)=>{
+    let comment = await Post.addComment(req.params.comment,req.params.userId,req.params.username,req.params.postId)
     return res.send(comment)
 })
 
@@ -213,9 +257,8 @@ app.get('/likes', async (req,res)=>{
     res.send(likes)
 })
 
-app.post('/addLike/:post_id', async (req,res)=>{
-    console.log(req.user,'239')
-    let addedLike = await Post.addLike(req.user.id,req.params.post_id)
+app.post('/addLike/:postId/:userId', async (req,res)=>{
+    let addedLike = await Post.addLike(req.params.userId,req.params.postId)
     return res.send(addedLike)
 })
 

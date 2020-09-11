@@ -6,47 +6,51 @@ const utils = require('../lib/utils');
 const db = require('../db_connection')
 // const pass = require('passport')
 // const passport = require('../config/passport')(pass)
-
+// const passport = require('../config/passport')
 // PASSPORT STUFF
-const passport = require('passport')
-require('../config/passport')(passport)
-// const Strategy = require('passport-local').Strategy
-// const bcrypt = require('bcrypt')
-// const SALT_ROUNDS = 10
+// const JwtStrategy = require('passport-jwt').Strategy
+// const ExtractJwt = require('passport-jwt').ExtractJwt;
+// const fs = require('fs');
+// const path = require('path');
+
+// const passport = require('passport')
 // router.use(passport.initialize());
-// router.use(passport.session());
 
-// passport.use(new Strategy((username,password,callback)=>{
-//     db.one(`SELECT * FROM users WHERE username='${username}'`)
-//     .then(u=>{
-//         bcrypt.compare(password, u.password)
-//         .then(result=>{
-//             if(!result) return callback(null,false)
-//             return callback(null, u)
-//         })
-//     })
-//     .catch(()=>callback(null,false))
+// const pathToKey = path.join(__dirname, '..', '/lib/jwtRS256.pem.pub');
+// const PUB_KEY = fs.readFileSync(pathToKey, 'utf8');
+
+// // require('../config/passport')(passport)
+// const options = {
+//     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+//     secretOrKey: PUB_KEY,
+//     algorithms: ['RS256']
+// };
+
+// passport.use(new JwtStrategy(options, function(jwt_payload, done) {
+//     console.log(jwt_payload.sub)
+//     console.log('using passport')
+//     const user = db.one(`SELECT * FROM users WHERE id=${jwt_payload.sub}`)
+//     console.log(user)
+//     if (user) {
+//         console.log(user,'passport')
+//         // Since we are here, the JWT is valid and our user is valid, so we are authorized!
+//         return done(null, user);
+//     } else {
+//         console.log('Else', 'passport')
+//         return done(null, false);
+//     }
 // }))
-// passport.serializeUser((user,callback)=>callback(null, user.id))
-// passport.deserializeUser((id,callback)=>{
-//     db.one(`SELECT * FROM users WHERE id='${id}'`)
-//     .then(u=>{
-//         return callback(null,u)
-//     })
-//     .catch(()=>callback({'not-found':'No User With That ID Is Found'}))
-// })
 
-// router.use(passport)
 
 // http://localhost:3000/users/login
 // Validate an existing user and issue a JWT
 router.post('/login', function(req, res, next){
-    console.log('yo')
+    console.log('login')
 
     // User.findOne({ username: req.body.username })
     db.one(`SELECT * FROM users WHERE username='${req.body.username}'`)
       .then((user) => {
-        console.log(user,'23')
+        // console.log(user,'23')
               if (!user) {
                   res.status(401).json({ success: false, msg: "could not find user" });
               }
@@ -55,9 +59,9 @@ router.post('/login', function(req, res, next){
               const isValid = utils.validPassword(req.body.password, user.password, user.salt);
               
               if (isValid) {
-                  console.log(user,'32')
+                //   console.log(user,'32')
                   const tokenObject = utils.issueJWT(user);
-                  console.log(user,'34')
+                //   console.log(user,'34')
                   res.status(200).json({ success: true, token: tokenObject.token, expiresIn: tokenObject.expires });
               } else {
                   res.status(401).json({ success: false, msg: "you entered the wrong password" });
@@ -103,18 +107,18 @@ router.post('/register', async function(req, res, next){
 
 });
 // passport.authenticate('jwt', { session: false }),
-router.get('/user', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-    console.log('omg')
-    console.log(req.user, '104')
-    if (req.isAuthenticated()) {
-        // Send the route data 
-        console.log('wow')
-        res.status(200).send(req.user);
-    } else {
-        // Not authorized
-        console.log('fuck')
-        res.status(401).send('You are not authorized to view this');
-    }
-});
+// router.get('/user', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+//     console.log('omg')
+//     console.log(req.user, '104')
+//     if (req.isAuthenticated()) {
+//         // Send the route data 
+//         console.log('wow')
+//         res.status(200).send(req.user);
+//     } else {
+//         // Not authorized
+//         console.log('fuck')
+//         res.status(401).send('You are not authorized to view this');
+//     }
+// });
 
 module.exports = router;
