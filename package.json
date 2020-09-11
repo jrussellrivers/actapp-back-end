@@ -22,6 +22,7 @@
   "homepage": "https://github.com/dstonem/actapp_capstone#readme",
   "dependencies": {
     "bcrypt": "^5.0.0",
+    "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "expo": "^38.0.10",
     "expo-secure-store": "^9.1.0",
@@ -30,6 +31,7 @@
     "express-session": "^1.17.1",
     "fs": "0.0.1-security",
     "mongoose": "^5.10.4",
+    "multer": "^1.4.2",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
