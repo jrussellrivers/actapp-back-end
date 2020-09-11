@@ -10,6 +10,7 @@ const Strategy = require('passport-local').Strategy
 const bcrypt = require('bcrypt')
 const SALT_ROUNDS = 10
 const db = require('./db_connection')
+const multer = require('multer')
 const fileUpload = require('express-fileupload')
 require('./models/user');
 
@@ -129,16 +130,35 @@ app.get('/posts', async (req,res)=>{
     res.send(posts)
 })
 
-app.get('/posts/:event_id', async (req,res)=>{
-    let posts = await Post.getPostsByEvent(req.params.event_id)
-    res.send(posts)
-})
+// app.get('/posts/:event_id', async (req,res)=>{
+//     let posts = await Post.getPostsByEvent(req.params.event_id)
+//     res.send(posts)
+// })
 
-app.post('/addPost/:event_id', async (req,res)=>{
-    console.log(req.body,'218')
-    let post = await Post.addPost(req.body.picurl,req.body.body,req.user.username,req.params.event_id)
-    console.log(post,'220')
-    return res.send(post)
+// app.post('/addPost/:event_id', async (req,res)=>{
+//     console.log(req.body,'218')
+//     let post = await Post.addPost(req.body.picurl,req.body.body,req.user.username,req.params.event_id)
+//     console.log(post,'220')
+//     return res.send(post)
+// })
+
+const Storage = multer.diskStorage({
+    destination(req, file, callback) {
+      callback(null, './images')
+    },
+    filename(req, file, callback) {
+      callback(null, `${file.fieldname}_${Date.now()}_${file.originalname}`)
+    },
+  })
+  
+const upload = multer({ storage: Storage })
+
+app.post('/upload', upload.array('photo', 3), (req, res) => {
+    console.log('file', req.files)
+    console.log('body', req.body)
+    res.status(200).json({
+      message: 'success!',
+    })
 })
 
 app.get('/usersPosts', async (req,res)=>{
