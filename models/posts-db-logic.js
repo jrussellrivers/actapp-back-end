@@ -49,11 +49,7 @@ const Post = () => {
     }
 
     const addLike = async (user_id,post_id) => {
-        let alreadyLikes = await checkIfUserAlreadyLikedPost(user_id,post_id)
-        if(!alreadyLikes) {
-            return await db.one(`insert into likes (user_id,post_id) values (${user_id},${post_id}) returning *`)
-        }
-        return false
+        return await db.one(`insert into likes (user_id,post_id) values (${user_id},${post_id}) returning *`)
     }
 
     const getAllLikes = async () => {
