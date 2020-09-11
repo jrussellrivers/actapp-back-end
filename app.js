@@ -153,9 +153,11 @@ const Storage = multer.diskStorage({
   
 const upload = multer({ storage: Storage })
 
-app.post('/upload', upload.array('photo', 3), (req, res) => {
+app.post('/upload', upload.array('photo', 3), async (req, res) => {
     console.log('file', req.files)
     console.log('body', req.body)
+    //NEED TO EDIT ADDPOST DB QUERY LOGIC
+    await Post.addPost(req.body.picurl,req.body.body,'dstonem')
     res.status(200).json({
       message: 'success!',
     })
