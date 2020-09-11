@@ -70,6 +70,7 @@ router.post('/login', function(req, res, next){
   });
 
 router.post('/register', async function(req, res, next){
+    console.log(req.body)
     const saltHash = utils.genPassword(req.body.password);
     
     const salt = saltHash.salt;
@@ -82,7 +83,7 @@ router.post('/register', async function(req, res, next){
         firstName:req.body.firstName,
         lastName:req.body.lastName,
         email:req.body.email,
-        streetaddress:req.body.streetaddress,
+        streetAddress:req.body.streetAddress,
         city:req.body.city,
         state:req.body.state,
         zipcode:req.body.zipcode,
@@ -91,7 +92,7 @@ router.post('/register', async function(req, res, next){
         birthdate:req.body.birthdate
     });
 
-    await db.none(`INSERT INTO users (username,password,salt,firstName,lastName,email,streetaddress,city,state,zipcode,race,gender,birthdate) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)`,[req.body.username,hash,salt,req.body.firstName,req.body.lastName,req.body.email,req.body.streetaddress,req.body.city,req.body.state,req.body.zipcode,req.body.race,req.body.gender,req.body.birthdate])
+    await db.none(`INSERT INTO users (username,password,salt,firstName,lastName,email,streetaddress,city,state,zipcode,race,gender,birthdate) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)`,[req.body.username,hash,salt,req.body.firstName,req.body.lastName,req.body.email,req.body.streetAddress,req.body.city,req.body.state,req.body.zipcode,req.body.race,req.body.gender,req.body.birthdate])
     console.log(newUser,'65')
     
     newUser.save()
