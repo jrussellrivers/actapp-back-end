@@ -5,10 +5,6 @@ const {secret} = require('./config')
 const port = 3333
 const session = require('express-session')
 const eS = session(secret)
-// const passport = require('passport')
-// const Strategy = require('passport-local').Strategy
-// const bcrypt = require('bcrypt')
-// const SALT_ROUNDS = 10
 const db = require('./db_connection')
 const multer = require('multer')
 const fileUpload = require('express-fileupload')
@@ -19,12 +15,15 @@ const User = require('./models/users-db-logic')()
 const Post = require('./models/posts-db-logic')()
 // const Actions = require('./models/actions-db-logic')()
 
+
+// All Passport-JWT Imports
 const JwtStrategy = require('passport-jwt').Strategy
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 const fs = require('fs');
 const path = require('path');
 const passport = require('passport')
 const pathToKey = path.join(__dirname, './lib/jwtRS256.pem');
+const utils = require('./lib/utils');
 const PUB_KEY = fs.readFileSync(pathToKey, 'utf8');
 const options = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -39,10 +38,8 @@ app.use(express.urlencoded({extended: true}))
 app.use(fileUpload())
 
 app.use(eS)
-// app.use(passport.initialize());
-// app.use(passport.session());
-app.use(require('./routes'));
 
+// Passport-JWT Logic
 app.use(passport.initialize());
 passport.use(new JwtStrategy(options, function(jwt_payload, done) {
     console.log(jwt_payload.sub)
@@ -60,52 +57,6 @@ passport.use(new JwtStrategy(options, function(jwt_payload, done) {
         }
     })
 }))
-app.get('/user', passport.authenticate('jwt', { session: false }), (req, res, next) => {
-    console.log('omg')
-    console.log(req.user, '104')
-    if (req.isAuthenticated()) {
-        // Send the route data 
-        console.log('wow')
-        res.status(200).send(req.user);
-    } else {
-        // Not authorized
-        console.log('fuck')
-        res.status(401).send('You are not authorized to view this');
-    }
-});
-
-// passport.use(new Strategy((username,password,callback)=>{
-//     db.one(`SELECT * FROM users WHERE username='${username}'`)
-//     .then(u=>{
-//         bcrypt.compare(password, u.password)
-//         .then(result=>{
-//             if(!result) return callback(null,false)
-//             return callback(null, u)
-//         })
-//     })
-//     .catch(()=>callback(null,false))
-// }))
-// passport.serializeUser((user,callback)=>callback(null, user.id))
-// passport.deserializeUser((id,callback)=>{
-//     db.one(`SELECT * FROM users WHERE id='${id}'`)
-//     .then(u=>{
-//         return callback(null,u)
-//     })
-//     .catch(()=>callback({'not-found':'No User With That ID Is Found'}))
-// })
-
-const checkIsLoggedIn = (req,res,next) =>{
-    if(req.isAuthenticated()) return next()
-    return res.send('error')
-}
-
-const createUser = async (req,res,next) => {
-    console.log(req.body)
-    let hash = await bcrypt.hash(req.body.password, SALT_ROUNDS)
-    let newUser = await db.one(`INSERT INTO users (username,password,firstName,lastName,email,streetaddress,city,state,zipcode,race,gender,birthdate) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12) RETURNING *`,[req.body.username,hash,req.body.firstName,req.body.lastName,req.body.email,req.body.streetaddress,req.body.city,req.body.state,req.body.zipcode,req.body.race,req.body.gender,req.body.birthdate])
-    next()
-    return newUser
-}
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -113,15 +64,39 @@ const createUser = async (req,res,next) => {
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
 
-// app.post('/login', passport.authenticate('local'), (req,res) => {
-//     console.log('othrer routes')
-//     res.send(req.user)
-// })
+app.post('/users/login', function(req, res, next){
 
-//XXXXXXXXXXX figure out how to send the right thing and automatically redirect to login from the frontend
-app.post('/login/register', createUser, async (req,res,next) => {
-    res.send(req.user)
-})
+    db.one(`SELECT * FROM users WHERE username='${req.body.username}'`)
+    .then((user) => {
+            if (!user) {
+                res.status(401).json({ success: false, msg: "could not find user" });
+            }
+            
+            // Function defined at bottom of app.js
+            const isValid = utils.validPassword(req.body.password, user.password, user.salt);
+            
+            if (isValid) {
+                const tokenObject = utils.issueJWT(user);
+                res.status(200).json({ success: true, token: tokenObject.token, expiresIn: tokenObject.expires });
+            } else {
+                res.status(401).json({ success: false, msg: "you entered the wrong password" });
+            }
+    
+        })
+        .catch((err) => {   
+            next(err);
+        });
+});
+
+app.post('/users/register', async function(req, res, next){
+
+    const saltHash = utils.genPassword(req.body.password);    
+    const salt = saltHash.salt;
+    const hash = saltHash.hash;
+
+    await db.none(`INSERT INTO users (username,password,salt,firstName,lastName,email,streetaddress,city,state,zipcode,race,gender,birthdate) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)`,[req.body.username,hash,salt,req.body.firstName,req.body.lastName,req.body.email,req.body.streetAddress,req.body.city,req.body.state,req.body.zipcode,req.body.race,req.body.gender,req.body.birthdate])
+
+});
 
 // app.post('/login/survey', async (req, res, next) => {
 //     let isValid = await User.storeUsersCauses(req.body.cause1, req.body.cause2, req.body.cause3, req.user.username)
@@ -132,12 +107,15 @@ app.post('/login/register', createUser, async (req,res,next) => {
 //     }
 // })
 
-// app.get('/user', (req,res)=>{
-//     console.log('start')
-//     console.log(req.user)
-//     // let user = await User.getUser(req.user.username)
-//     res.send(req.user)
-// })
+app.get('/user', passport.authenticate('jwt', { session: false }), (req, res, next) => {
+    if (req.isAuthenticated()) {
+        // Send the route data 
+        res.status(200).send(req.user);
+    } else {
+        // Not authorized
+        res.status(401).send('You are not authorized to view this');
+    }
+});
 
 app.post('/user/profilePic/:username', async (req,res)=>{
     if(req.files === null) {
@@ -174,11 +152,6 @@ app.get('/posts', async (req,res)=>{
     res.send(posts)
 })
 
-// app.get('/posts/:event_id', async (req,res)=>{
-//     let posts = await Post.getPostsByEvent(req.params.event_id)
-//     res.send(posts)
-// })
-
 // app.post('/addPost/:event_id', async (req,res)=>{
 //     console.log(req.body,'218')
 //     let post = await Post.addPost(req.body.picurl,req.body.body,req.user.username,req.params.event_id)
@@ -207,29 +180,10 @@ app.post('/upload', upload.array('photo', 3), async (req, res) => {
     })
 })
 
-app.get('/usersPosts', async (req,res)=>{
-    let posts = await Post.getPostsByUser(req.user.username)
-    res.send(posts)
-})
-
-app.post('/upload/:event_id', async (req,res)=>{
-    if(req.files === null) {
-        return res.status(400).json({msg:'No file uploaded'})
-    }
-
-    const now = Date.now()
-
-    const file = req.files.file
-    console.log(req.body.postText,'234')
-    file.mv(`/Users/dylan/dc_projects/actapp-protest/public/images/${now}_${file.name}`, async err => {
-        console.log(err)
-        if(err){
-            return res.status(500).send(err)
-        }
-        await Post.addPost(`/images/${now}_${file.name}`,req.body.postText,req.user.username,req.params.event_id)
-        return res.json({ fileName: file.name, filePath: `/images/${file.name}`})
-    })
-})
+// app.get('/usersPosts', async (req,res)=>{
+//     let posts = await Post.getPostsByUser(req.user.username)
+//     res.send(posts)
+// })
 
 app.get('/comments', async (req,res)=>{
     let comments = await Post.getAllComments()
