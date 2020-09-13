@@ -13,7 +13,7 @@ require('./models/user');
 const User = require('./models/users-db-logic')()
 // const Policy = require('./models/policies-db-logic')()
 const Post = require('./models/posts-db-logic')()
-const Actions = require('./models/actions-db-logic')()
+// const Actions = require('./models/actions-db-logic')()
 
 
 // All Passport-JWT Imports
@@ -56,7 +56,6 @@ passport.use(new JwtStrategy(options, function(jwt_payload, done) {
             return done(null, false);
         }
     })
-    .catch(()=>callback(null,false))
 }))
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -165,25 +164,25 @@ app.get('/post/:id', async (req,res)=>{
 //     console.log(post,'220')
 //     return res.send(post)
 // })
+
+const Storage = multer.diskStorage({
+    destination(req, file, callback) {
+      callback(null, './images')
+    },
+    filename(req, file, callback) {
+      callback(null, `${file.fieldname}_${Date.now()}_${file.originalname}`)
+    },
+  })
   
-  app.post('/upload', async (req,res)=>{
-      console.log(req.body,'146')
-      console.log(req.files,'147')
-    if(req.files === null) {
-        return res.status(400).json({msg:'No file uploaded'})
-    }
+const upload = multer({ storage: Storage })
 
-    const now = Date.now()
-
-    const file = req.files.file
-    // console.log(req.body.postText,'234')
-    file.mv(`/Users/dylan/dc_projects/actapp/public/images/${now}_${file.name}`, async err => {
-        console.log(err)
-        if(err){
-            return res.status(500).send(err)
-        }
-        await Post.addPost(`/images/${now}_${file.name}`,req.body.postText,req.user.username)
-        return res.json({ fileName: file.name, filePath: `/images/${file.name}`})
+app.post('/upload', upload.array('photo', 3), async (req, res) => {
+    console.log('file', req.files)
+    console.log('body', req.body)
+    //NEED TO EDIT ADDPOST DB QUERY LOGIC
+    await Post.addPost(req.body.picurl,req.body.body,'dstonem')
+    res.status(200).json({
+      message: 'success!',
     })
 })
 
@@ -203,8 +202,8 @@ app.get('/comments/:post_id', async (req,res)=>{
     res.send(comments)
 })
 
-app.post('/addComment/:comment/:postId', async (req,res)=>{
-    let comment = await Post.addComment(req.params.comment,1,'dstonem',req.params.postId)
+app.post('/addComment/:comment/:postId/:userId/:username', async (req,res)=>{
+    let comment = await Post.addComment(req.params.comment,req.params.userId,req.params.username,req.params.postId)
     return res.send(comment)
 })
 // Testing
@@ -219,9 +218,8 @@ app.get('/likes', async (req,res)=>{
     res.send(likes)
 })
 
-app.post('/addLike/:post_id', async (req,res)=>{
-    console.log(req.user,'239')
-    let addedLike = await Post.addLike(req.user.id,req.params.post_id)
+app.post('/addLike/:postId/:userId', async (req,res)=>{
+    let addedLike = await Post.addLike(req.params.userId,req.params.postId)
     return res.send(addedLike)
 })
 
@@ -231,16 +229,12 @@ app.post('/addLike/:post_id', async (req,res)=>{
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
 
-app.get('/actions', async (req,res)=>{
+app.get('/actions/resources', async (req,res)=>{
     res.send(await Actions.getAllActions())
 })
 
-app.get('/actions/resources', async (req,res)=>{
-    // res.send(await Actions.getAllActions())
-})
-
-app.get('/actions/resources/:actionId', async (req,res)=>{
-    res.send(await Actions.findActionResources(req.params.actionId))
+app.get('/actions/resources/:action', async (req,res)=>{
+    res.send(await Actions.findActionResources(req.params.action))
 })
 
 app.listen(port)
