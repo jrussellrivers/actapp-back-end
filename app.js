@@ -131,6 +131,18 @@ app.post('/user/profilePic/:username', async (req,res)=>{
     res.json({ fileName: file.name, filePath: `/images/${file.name}`})
 })
 
+app.get('/searchUsers/', async (req, res, next) => {
+    // if (req.isAuthenticated()) {
+        console.log('136')
+        const users = await User.getAllUsers()
+        console.log(users,'138')
+        res.send(users);
+    // } else {
+    //     // Not authorized
+    //     res.status(401).send('You are not authorized to view this');
+    // }
+});
+
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
 // POLICIES
