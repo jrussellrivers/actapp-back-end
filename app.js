@@ -153,6 +153,12 @@ app.get('/posts', async (req,res)=>{
     res.send(posts)
 })
 
+app.get('/post/:id', async (req,res)=>{
+    let post = await Post.getPostById(req.params.id)
+    console.log(post, 'line 157')
+    res.send(post)
+})
+
 // app.post('/addPost/:event_id', async (req,res)=>{
 //     console.log(req.body,'218')
 //     let post = await Post.addPost(req.body.picurl,req.body.body,req.user.username,req.params.event_id)
