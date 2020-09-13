@@ -206,6 +206,7 @@ app.post('/addComment/:comment/:postId/:userId/:username', async (req,res)=>{
     let comment = await Post.addComment(req.params.comment,req.params.userId,req.params.username,req.params.postId)
     return res.send(comment)
 })
+// Testing
 
 app.get('/likes/:post_id', async (req,res)=>{
     let likes = await Post.getLikesByPost(req.user.id,req.params.post_id)
