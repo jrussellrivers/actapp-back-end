@@ -197,8 +197,8 @@ app.get('/comments/:post_id', async (req,res)=>{
     res.send(comments)
 })
 
-app.post('/addComment/:comment/:postId', async (req,res)=>{
-    let comment = await Post.addComment(req.params.comment,1,'dstonem',req.params.postId)
+app.post('/addComment/:comment/:postId/:userId/:username', async (req,res)=>{
+    let comment = await Post.addComment(req.params.comment,req.params.userId,req.params.username,req.params.postId)
     return res.send(comment)
 })
 
@@ -212,9 +212,8 @@ app.get('/likes', async (req,res)=>{
     res.send(likes)
 })
 
-app.post('/addLike/:post_id', async (req,res)=>{
-    console.log(req.user,'239')
-    let addedLike = await Post.addLike(req.user.id,req.params.post_id)
+app.post('/addLike/:postId/:userId', async (req,res)=>{
+    let addedLike = await Post.addLike(req.params.userId,req.params.postId)
     return res.send(addedLike)
 })
 
