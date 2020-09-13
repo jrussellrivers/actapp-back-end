@@ -13,7 +13,7 @@ require('./models/user');
 const User = require('./models/users-db-logic')()
 // const Policy = require('./models/policies-db-logic')()
 const Post = require('./models/posts-db-logic')()
-// const Actions = require('./models/actions-db-logic')()
+const Actions = require('./models/actions-db-logic')()
 
 
 // All Passport-JWT Imports
@@ -206,7 +206,6 @@ app.post('/addComment/:comment/:postId/:userId/:username', async (req,res)=>{
     let comment = await Post.addComment(req.params.comment,req.params.userId,req.params.username,req.params.postId)
     return res.send(comment)
 })
-// Testing
 
 app.get('/likes/:post_id', async (req,res)=>{
     let likes = await Post.getLikesByPost(req.user.id,req.params.post_id)
@@ -229,12 +228,14 @@ app.post('/addLike/:postId/:userId', async (req,res)=>{
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
 
-app.get('/actions/resources', async (req,res)=>{
+app.get('/actions', async (req,res)=>{
     res.send(await Actions.getAllActions())
 })
-
-app.get('/actions/resources/:action', async (req,res)=>{
-    res.send(await Actions.findActionResources(req.params.action))
+app.get('/actions/resources', async (req,res)=>{
+    // res.send(await Actions.getAllActions())
+})
+app.get('/actions/resources/:actionId', async (req,res)=>{
+    res.send(await Actions.findActionResources(req.params.actionId))
 })
 
 app.listen(port)
