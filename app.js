@@ -130,6 +130,11 @@ app.post('/user/profilePic/:username', async (req,res)=>{
     res.json({ fileName: file.name, filePath: `/images/${file.name}`})
 })
 
+app.get('/user/:id', async (req,res)=>{
+    let user = await User.getUserById(req.params.id)
+    res.send(user)
+})
+
 app.get('/searchUsers/', async (req, res, next) => {
     // if (req.isAuthenticated()) {
         console.log('136')
