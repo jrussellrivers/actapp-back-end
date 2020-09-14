@@ -9,6 +9,7 @@ const db = require('./db_connection')
 const multer = require('multer')
 const fileUpload = require('express-fileupload')
 require('./models/user');
+// const bodyParser = require('body-parser')
 
 const User = require('./models/users-db-logic')()
 // const Policy = require('./models/policies-db-logic')()
@@ -31,10 +32,10 @@ const options = {
     algorithms: ['RS256']
 };
 
-app.use(express.json())
+app.use(express.json({limit: '5mb', extended: true}))
 app.use(express.static(__dirname+"/site"))
 app.use(cors())
-app.use(express.urlencoded({extended: true}))
+app.use(express.urlencoded({extended: true, limit: '5mb'}))
 app.use(fileUpload())
 
 app.use(eS)
@@ -57,6 +58,8 @@ passport.use(new JwtStrategy(options, function(jwt_payload, done) {
         }
     })
 }))
+
+
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -181,23 +184,29 @@ app.get('/post/:id', async (req,res)=>{
 //     console.log(post,'220')
 //     return res.send(post)
 // })
-  
-  app.post('/upload/:username/:user_id', async (req,res)=>{
-      console.log(req.body,'182')
-    //   console.log(req.files,'147')
-    // if(req.body === null) {
-    //     return res.status(400).json({msg:'No file uploaded'})
-    // }
 
-    const now = Date.now()
-    console.log('189')//replace png below with the filetype from the beginning of the uri
-    let results = fs.writeFile(__dirname + '/images/' + `${now}_${req.body.name}.${req.body.uri.split('data:image/').pop().split(';base64,').shift()}`, req.body.uri.split(';base64,').pop(),{encoding: 'base64'},async ()=>{await Post.addPost(`/images/${now}_${req.body.name}.${req.body.uri.split('data:image/').pop().split(';base64,').shift()}`,req.body.text,req.params.username,req.params.user_id)})
+/////////////////////////////// Code for saving an image to backend Folder and DB
+//   app.post('/upload/:username/:user_id', async (req,res)=>{
+//       console.log(req.body,'182')
+//     //   console.log(req.files,'147')
+//     // if(req.body === null) {
+//     //     return res.status(400).json({msg:'No file uploaded'})
+//     // }
 
-    console.log(req.body.uri.split('data:image/').pop().split(';base64,').shift(),'192')
-    console.log(results)
+//     const now = Date.now()
+//     console.log('189')//replace png below with the filetype from the beginning of the uri
+//     let results = fs.writeFile(__dirname + '/images/' + `${now}_${req.body.name}.${req.body.uri.split('data:image/').pop().split(';base64,').shift()}`, req.body.uri.split(';base64,').pop(),{encoding: 'base64'},async ()=>{await Post.addPost(`/images/${now}_${req.body.name}.${req.body.uri.split('data:image/').pop().split(';base64,').shift()}`,req.body.text,req.params.username,req.params.user_id)})
 
+//     console.log(req.body.uri.split('data:image/').pop().split(';base64,').shift(),'192')
+//     console.log(results)
+
+//     res.send('file uplaoded')
+
+// })
+
+app.post('/upload/:username/:user_id', async (req,res)=>{
+    await Post.addPost(req.body.uri,req.body.text,req.params.username,req.params.user_id)
     res.send('file uplaoded')
-
 })
 
 // app.get('/usersPosts', async (req,res)=>{
@@ -234,6 +243,11 @@ app.get('/likes', async (req,res)=>{
 app.post('/addLike/:postId/:userId', async (req,res)=>{
     let addedLike = await Post.addLike(req.params.userId,req.params.postId)
     return res.send(addedLike)
+})
+
+app.get('/images/:url', async (req,res)=>{
+    let img = require(`http://localhost:3333${req.params.url}`)
+    return res.send(img)
 })
 
 ////////////////////////////////////////////////////////////////////////////////////////
