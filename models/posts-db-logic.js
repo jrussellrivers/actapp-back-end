@@ -14,9 +14,9 @@ const Post = () => {
         return await db.any(`select * from posts where username = '${username}'`)
     }
 
-    const addPost = async (image,text,username) => {
-        console.log(image,text,username,'11 of posts-db-logic')
-        return await db.none(`insert into posts (picurl,body,username) values ('${image}','${text}','${username}')`)
+    const addPost = async (image,text,username,user_id) => {
+        console.log(user_id,'18')
+        return await db.none(`insert into posts (picurl,body,username,user_id) values ('${image}','${text}','${username}','${user_id}')`)
     }
 
     const getAllComments = async() => {
