@@ -45,6 +45,14 @@ let User = () => {
     const getUserById = async (id) => {
         return await db.one(`SELECT * FROM users WHERE id = '${id}'`)
     }
+    
+    const getAllUsers = async () => {
+        return await db.any(`SELECT * FROM users`)
+    }
+
+    const searchUsers = async (searchText) => {
+        return await db.any(`SELECT * FROM users where username like '${searchText}'`)
+    }
 
     //getOtherUser
 
@@ -54,7 +62,9 @@ let User = () => {
         storeUsersCauses,
         updateProfilePic,
         getUser,
-        getUserById
+        getUserById,
+        getAllUsers,
+        searchUsers
     }
 }
 

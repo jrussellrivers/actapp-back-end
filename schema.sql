@@ -40,6 +40,7 @@ create table actions (
 );
 
 create table action_resources (
+    id serial primary key,
     name varchar,
     url varchar,
     pic varchar,

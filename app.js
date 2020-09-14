@@ -135,6 +135,18 @@ app.get('/user/:id', async (req,res)=>{
     res.send(user)
 })
 
+app.get('/searchUsers/', async (req, res, next) => {
+    // if (req.isAuthenticated()) {
+        console.log('136')
+        const users = await User.getAllUsers()
+        console.log(users,'138')
+        res.send(users);
+    // } else {
+    //     // Not authorized
+    //     res.status(401).send('You are not authorized to view this');
+    // }
+});
+
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
 // POLICIES
@@ -169,26 +181,23 @@ app.get('/post/:id', async (req,res)=>{
 //     console.log(post,'220')
 //     return res.send(post)
 // })
-
-const Storage = multer.diskStorage({
-    destination(req, file, callback) {
-      callback(null, './images')
-    },
-    filename(req, file, callback) {
-      callback(null, `${file.fieldname}_${Date.now()}_${file.originalname}`)
-    },
-  })
   
-const upload = multer({ storage: Storage })
+  app.post('/upload/:username', async (req,res)=>{
+      console.log(req.body,'182')
+    //   console.log(req.files,'147')
+    // if(req.body === null) {
+    //     return res.status(400).json({msg:'No file uploaded'})
+    // }
 
-app.post('/upload', upload.array('photo', 3), async (req, res) => {
-    console.log('file', req.files)
-    console.log('body', req.body)
-    //NEED TO EDIT ADDPOST DB QUERY LOGIC
-    await Post.addPost(req.body.picurl,req.body.body,'dstonem')
-    res.status(200).json({
-      message: 'success!',
-    })
+    const now = Date.now()
+    console.log('189')//replace png below with the filetype from the beginning of the uri
+    let results = fs.writeFile(__dirname + '/images/' + `${now}_${req.body.name}.${req.body.uri.split('data:image/').pop().split(';base64,').shift()}`, req.body.uri.split(';base64,').pop(),{encoding: 'base64'},async ()=>{await Post.addPost(`/images/${now}_${req.body.name}.${req.body.uri.split('data:image/').pop().split(';base64,').shift()}`,req.body.text,req.params.username)})
+
+    console.log(req.body.uri.split('data:image/').pop().split(';base64,').shift(),'192')
+    console.log(results)
+
+    res.send('file uplaoded')
+
 })
 
 // app.get('/usersPosts', async (req,res)=>{
