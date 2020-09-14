@@ -182,7 +182,7 @@ app.get('/post/:id', async (req,res)=>{
 //     return res.send(post)
 // })
   
-  app.post('/upload/:username', async (req,res)=>{
+  app.post('/upload/:username/:user_id', async (req,res)=>{
       console.log(req.body,'182')
     //   console.log(req.files,'147')
     // if(req.body === null) {
@@ -191,7 +191,7 @@ app.get('/post/:id', async (req,res)=>{
 
     const now = Date.now()
     console.log('189')//replace png below with the filetype from the beginning of the uri
-    let results = fs.writeFile(__dirname + '/images/' + `${now}_${req.body.name}.${req.body.uri.split('data:image/').pop().split(';base64,').shift()}`, req.body.uri.split(';base64,').pop(),{encoding: 'base64'},async ()=>{await Post.addPost(`/images/${now}_${req.body.name}.${req.body.uri.split('data:image/').pop().split(';base64,').shift()}`,req.body.text,req.params.username)})
+    let results = fs.writeFile(__dirname + '/images/' + `${now}_${req.body.name}.${req.body.uri.split('data:image/').pop().split(';base64,').shift()}`, req.body.uri.split(';base64,').pop(),{encoding: 'base64'},async ()=>{await Post.addPost(`/images/${now}_${req.body.name}.${req.body.uri.split('data:image/').pop().split(';base64,').shift()}`,req.body.text,req.params.username,req.params.user_id)})
 
     console.log(req.body.uri.split('data:image/').pop().split(';base64,').shift(),'192')
     console.log(results)
