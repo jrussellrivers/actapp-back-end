@@ -56,7 +56,6 @@ passport.use(new JwtStrategy(options, function(jwt_payload, done) {
             return done(null, false);
         }
     })
-    .catch(()=>callback(null,false))
 }))
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -193,6 +192,7 @@ app.get('/post/:id', async (req,res)=>{
     console.log(results)
 
     res.send('file uplaoded')
+
 })
 
 // app.get('/usersPosts', async (req,res)=>{
@@ -240,11 +240,9 @@ app.post('/addLike/:postId/:userId', async (req,res)=>{
 app.get('/actions', async (req,res)=>{
     res.send(await Actions.getAllActions())
 })
-
 app.get('/actions/resources', async (req,res)=>{
     // res.send(await Actions.getAllActions())
 })
-
 app.get('/actions/resources/:actionId', async (req,res)=>{
     res.send(await Actions.findActionResources(req.params.actionId))
 })
