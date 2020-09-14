@@ -178,25 +178,21 @@ app.get('/post/:id', async (req,res)=>{
 //     return res.send(post)
 // })
   
-  app.post('/upload', async (req,res)=>{
-      console.log(req.body,'146')
-      console.log(req.files,'147')
-    if(req.files === null) {
-        return res.status(400).json({msg:'No file uploaded'})
-    }
+  app.post('/upload/:username', async (req,res)=>{
+      console.log(req.body,'182')
+    //   console.log(req.files,'147')
+    // if(req.body === null) {
+    //     return res.status(400).json({msg:'No file uploaded'})
+    // }
 
     const now = Date.now()
+    console.log('189')//replace png below with the filetype from the beginning of the uri
+    let results = fs.writeFile(__dirname + '/images/' + `${now}_${req.body.name}.${req.body.uri.split('data:image/').pop().split(';base64,').shift()}`, req.body.uri.split(';base64,').pop(),{encoding: 'base64'},async ()=>{await Post.addPost(`/images/${now}_${req.body.name}.${req.body.uri.split('data:image/').pop().split(';base64,').shift()}`,req.body.text,req.params.username)})
 
-    const file = req.files.file
-    // console.log(req.body.postText,'234')
-    file.mv(`/Users/dylan/dc_projects/actapp/public/images/${now}_${file.name}`, async err => {
-        console.log(err)
-        if(err){
-            return res.status(500).send(err)
-        }
-        await Post.addPost(`/images/${now}_${file.name}`,req.body.postText,req.user.username)
-        return res.json({ fileName: file.name, filePath: `/images/${file.name}`})
-    })
+    console.log(req.body.uri.split('data:image/').pop().split(';base64,').shift(),'192')
+    console.log(results)
+
+    res.send('file uplaoded')
 })
 
 // app.get('/usersPosts', async (req,res)=>{
