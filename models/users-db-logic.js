@@ -42,6 +42,10 @@ let User = () => {
         return await db.one(`SELECT * FROM users WHERE username = '${username}'`)
     }
 
+    const getUserById = async (id) => {
+        return await db.one(`SELECT * FROM users WHERE id = '${id}'`)
+    }
+
     //getOtherUser
 
     return {
@@ -49,7 +53,8 @@ let User = () => {
         login,
         storeUsersCauses,
         updateProfilePic,
-        getUser
+        getUser,
+        getUserById
     }
 }
 
