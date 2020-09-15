@@ -195,7 +195,7 @@ app.get('/post/:id', async (req,res)=>{
 // })
 
 app.post('/upload/:username/:user_id', async (req,res)=>{
-    await Post.addPost(req.body.uri,req.body.text,req.params.username,req.params.user_id)
+    await Post.addPost(req.body.uri,req.body.text,req.params.username,req.params.user_id,req.body.cause,req.body.action,req.body.points)
     res.send('file uplaoded')
 })
 
@@ -246,12 +246,27 @@ app.get('/images/:url', async (req,res)=>{
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
 
+app.get('/causes', async (req,res)=>{
+    res.send(await Actions.getAllCauses())
+})
+
+app.get('/actions/:cause', async (req,res)=>{
+    res.send(await Actions.getActionsByCause(req.params.cause))
+})
+
+app.get('/actions/id/:action_id', async (req,res)=>{
+    console.log(req.params.action_id,'258')
+    res.send(await Actions.getActionById(req.params.action_id))
+})
+
 app.get('/actions', async (req,res)=>{
     res.send(await Actions.getAllActions())
 })
+
 app.get('/actions/resources', async (req,res)=>{
     // res.send(await Actions.getAllActions())
 })
+
 app.get('/actions/resources/:actionId', async (req,res)=>{
     res.send(await Actions.findActionResources(req.params.actionId))
 })
