@@ -50,6 +50,10 @@ let User = () => {
         return await db.any(`SELECT * FROM users`)
     }
 
+    const getAllUserPics = async () => {
+        return await db.any(`SELECT id, profilePic FROM users`)
+    }
+
     const searchUsers = async (searchText) => {
         return await db.any(`SELECT * FROM users where username like '${searchText}'`)
     }
@@ -69,7 +73,8 @@ let User = () => {
         getUserById,
         getAllUsers,
         searchUsers,
-        addCause
+        addCause,
+        getAllUserPics
     }
 }
 
