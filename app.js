@@ -8,7 +8,6 @@ const eS = session(secret)
 const db = require('./db_connection')
 const multer = require('multer')
 const fileUpload = require('express-fileupload')
-require('./models/user');
 // const bodyParser = require('body-parser')
 
 const User = require('./models/users-db-logic')()
@@ -135,6 +134,11 @@ app.get('/searchUsers/', async (req, res, next) => {
     //     res.status(401).send('You are not authorized to view this');
     // }
 });
+
+app.get('/userpics', async (req,res)=>{
+    let pics = await User.getAllUserPics()
+    res.send(pics)
+})
 
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
