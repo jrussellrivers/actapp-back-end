@@ -49,11 +49,9 @@ passport.use(new JwtStrategy(options, function(jwt_payload, done) {
     db.one(`SELECT * FROM users WHERE id=${jwt_payload.sub}`)
     .then(user=>{
         if (user) {
-            console.log(user,'passport')
             // Since we are here, the JWT is valid and our user is valid, so we are authorized!
             return done(null, user);
         } else {
-            console.log('Else', 'passport')
             return done(null, false);
         }
     })
@@ -97,18 +95,14 @@ app.post('/users/register', async function(req, res, next){
     const salt = saltHash.salt;
     const hash = saltHash.hash;
 
-    await db.none(`INSERT INTO users (username,password,salt,firstName,lastName,email,streetaddress,city,state,zipcode,race,gender,birthdate) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13)`,[req.body.username,hash,salt,req.body.firstName,req.body.lastName,req.body.email,req.body.streetAddress,req.body.city,req.body.state,req.body.zipcode,req.body.race,req.body.gender,req.body.birthdate])
-
+    const registeredUser = await db.one(`INSERT INTO users (username,password,salt,firstName,lastName,email,streetaddress,city,state,zipcode,race,gender,birthdate) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13) RETURNING *`,[req.body.username,hash,salt,req.body.firstName,req.body.lastName,req.body.email,req.body.streetAddress,req.body.city,req.body.state,req.body.zipcode,req.body.race,req.body.gender,req.body.birthdate])
+    res.send(registeredUser)
 });
 
-// app.post('/login/survey', async (req, res, next) => {
-//     let isValid = await User.storeUsersCauses(req.body.cause1, req.body.cause2, req.body.cause3, req.user.username)
-//     if(isValid){
-//         res.send(isValid)
-//     } else {
-//         res.redirect('/#/Survey')
-//     }
-// })
+app.post('/register/survey/:cause/:user_id', async (req, res, next) => {
+    let result = await User.addCause(req.params.cause, req.params.user_id)
+    res.send(result)
+})
 
 app.get('/user', passport.authenticate('jwt', { session: false }), (req, res, next) => {
     if (req.isAuthenticated()) {
@@ -120,17 +114,9 @@ app.get('/user', passport.authenticate('jwt', { session: false }), (req, res, ne
     }
 });
 
-app.post('/user/profilePic/:username', async (req,res)=>{
-    if(req.files === null) {
-        return res.status(400).json({msg:'No file uploaded'})
-    }
-    const now = Date.now()
-    const file = req.files.file
-    file.mv(`/Users/dylan/dc_projects/actapp-protest/public/images/${now}_${file.name}`, err => {
-        return res.status(500).send(err)
-    })
-    await User.updateProfilePic(`/images/${now}_${file.name}`,req.params.username)
-    res.json({ fileName: file.name, filePath: `/images/${file.name}`})
+app.post('/user/profilePic/:user_id', async (req,res)=>{
+    await User.updateProfilePic(req.body.uri, req.params.user_id)
+    res.send('file uplaoded')
 })
 
 app.get('/user/:id', async (req,res)=>{

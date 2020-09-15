@@ -34,8 +34,8 @@ let User = () => {
         return causes
     }
 
-    const updateProfilePic = async (profile_pic_url,username) => {
-        return await db.one(`UPDATE users SET profilePic = '${profile_pic_url}' WHERE username = '${username}' RETURNING *`)
+    const updateProfilePic = async (profile_pic_url,user_id) => {
+        return await db.none(`UPDATE users SET profilePic = '${profile_pic_url}' WHERE id = '${user_id}'`)
     }
         
     const getUser = async (username) => {
@@ -54,6 +54,10 @@ let User = () => {
         return await db.any(`SELECT * FROM users where username like '${searchText}'`)
     }
 
+    const addCause = async (name, user_id) => {
+        return await db.one(`insert into causes (cause, user_id) values ('${name}','${user_id}') RETURNING *`)
+    }
+
     //getOtherUser
 
     return {
@@ -64,7 +68,8 @@ let User = () => {
         getUser,
         getUserById,
         getAllUsers,
-        searchUsers
+        searchUsers,
+        addCause
     }
 }
 
