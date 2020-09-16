@@ -18,7 +18,8 @@ create table users (
     registerDate timestamp default now(),
     race text not null,
     gender text not null,
-    birthdate date not null
+    birthdate date not null,
+    notification_check TIMESTAMP DEFAULT null
 );
 
 create table causes_list (
@@ -86,7 +87,9 @@ create table posts (
 
 create table likes (
     user_id integer references users (id),
-    post_id integer references posts (id)
+    post_id integer references posts (id),
+    post_username VARCHAR references users (username),
+    created_at timestamp default now()
 );
 
 create table comments (
@@ -94,6 +97,7 @@ create table comments (
     comment text not null,
     created_at timestamp default now(),
     post_id integer references posts (id),
+    post_username VARCHAR references users (username),
     user_id integer references users (id),
     username text REFERENCES users (username)
 );
@@ -164,23 +168,23 @@ values
     ('2004-10-27 10:23:54','data:image/png;base64,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','Just signed up for this professional development course! Supporting a black entrepreneur!','blm',3,'fgarcia')
 ;
 
-insert into likes (user_id, post_id)
+insert into likes (user_id, post_id, post_username)
 values
-    (1, 1),
-    (1, 2),
-    (1, 3),
-    (2, 4),
-    (2, 5),
-    (2, 6);
+    (1, 1, 'dstonem'),
+    (1, 2, 'dstonem'),
+    (1, 3, 'dstonem'),
+    (2, 4, 'npatton'),
+    (2, 5, 'npatton'),
+    (2, 6, 'npatton');
 
-insert into comments (comment,post_id,user_id,username,created_at)
+insert into comments (comment,post_id,user_id,username,created_at,post_username)
 VALUES
-    ('Nice! Love that place',1,2,'npatton','2004-10-24 10:23:54'),
-    ('Nice! That place is dope',1,3,'fgarcia','2004-10-25 10:23:54'),
-    ('Nice one!',4,1,'dstonem','2004-10-25 10:23:54'),
-    ('Comment 1',2,1,'dstonem','2004-10-23 10:23:54'),
-    ('Comment 2',2,2,'npatton','2004-10-24 10:23:54'),
-    ('Comment 3',2,3,'fgarcia','2004-10-25 10:23:54');
+    ('Nice! Love that place',1,2,'npatton','2004-10-24 10:23:54','dstonem'),
+    ('Nice! That place is dope',1,3,'fgarcia','2004-10-25 10:23:54','dstonem'),
+    ('Nice one!',4,1,'dstonem','2004-10-25 10:23:54','npatton'),
+    ('Comment 1',2,1,'dstonem','2004-10-23 10:23:54','dstonem'),
+    ('Comment 2',2,2,'npatton','2004-10-24 10:23:54','dstonem'),
+    ('Comment 3',2,3,'fgarcia','2004-10-25 10:23:54','dstonem');
 
 --how do we join this actions table with the event_id table? or do we even need to?
 insert into actions (cause,title,points,main_description,icon,mainUrl,reading,repeatable,additionalInfo)
