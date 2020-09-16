@@ -62,6 +62,10 @@ let User = () => {
         return await db.one(`insert into causes (cause, user_id) values ('${name}','${user_id}') RETURNING *`)
     }
 
+    const updatePoints = async (value, id) => {
+        return await db.none(`UPDATE users SET points = '${value}' WHERE id = '${id}'`)
+    }
+
     //getOtherUser
 
     return {
@@ -74,7 +78,8 @@ let User = () => {
         getAllUsers,
         searchUsers,
         addCause,
-        getAllUserPics
+        getAllUserPics,
+        updatePoints
     }
 }
 

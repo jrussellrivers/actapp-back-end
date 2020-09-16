@@ -59,6 +59,10 @@ const Post = () => {
     const getPostById = async (postId) =>{
         return await db.one(`SELECT * FROM posts WHERE id='${postId}'`)
     }
+
+    const updatePointStatus = async (id) => {
+        return await db.none(`UPDATE posts SET points_awarded = 'true' WHERE id = '${id}'`)
+    }
     
     return {
         getAllPosts,
@@ -72,7 +76,8 @@ const Post = () => {
         checkIfUserAlreadyLikedPost,
         getAllComments,
         getAllLikes,
-        getPostById
+        getPostById,
+        updatePointStatus
     }
 }
 
