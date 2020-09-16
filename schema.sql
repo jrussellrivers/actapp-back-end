@@ -184,6 +184,7 @@ VALUES
 --how do we join this actions table with the event_id table? or do we even need to?
 insert into actions (cause,title,points,main_description,icon,mainUrl,reading,repeatable,additionalInfo)
 VALUES
+    ('other','',0,'','','','',false,''),
     ('blm',
     'Support a Black-Owned Business',
     50,
