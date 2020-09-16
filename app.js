@@ -215,8 +215,8 @@ app.get('/comments/:post_id', async (req,res)=>{
     res.send(comments)
 })
 
-app.post('/addComment/:comment/:postId/:userId/:username', async (req,res)=>{
-    let comment = await Post.addComment(req.params.comment,req.params.userId,req.params.username,req.params.postId)
+app.post('/addComment/:comment/:postId/:userId/:username/:post_username', async (req,res)=>{
+    let comment = await Post.addComment(req.params.comment,req.params.userId,req.params.username,req.params.postId,req.params.post_username)
     return res.send(comment)
 })
 
@@ -230,8 +230,9 @@ app.get('/likes', async (req,res)=>{
     res.send(likes)
 })
 
-app.post('/addLike/:postId/:userId', async (req,res)=>{
-    let addedLike = await Post.addLike(req.params.userId,req.params.postId)
+app.post('/addLike/:postId/:userId/:postUsername', async (req,res)=>{
+    console.log('fetch')
+    let addedLike = await Post.addLike(req.params.userId,req.params.postId,req.params.postUsername)
     return res.send(addedLike)
 })
 

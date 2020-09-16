@@ -27,8 +27,8 @@ const Post = () => {
         return await db.any(`select * from comments where post_id = ${post_id}`)
     }
 
-    const addComment = async (comment,user_id,username,post_id) => {
-        return await db.any(`insert into comments (comment,user_id,username,post_id) values ('${comment}','${user_id}','${username}',${post_id}) returning *`)
+    const addComment = async (comment,user_id,username,post_id,post_username) => {
+        return await db.any(`insert into comments (comment,user_id,username,post_id,post_username) values ('${comment}','${user_id}','${username}',${post_id},'${post_username}') returning *`)
     }
 
     const getLikesByPost = async (user_id,post_id) => {
@@ -48,8 +48,10 @@ const Post = () => {
         return alreadyLikes
     }
 
-    const addLike = async (user_id,post_id) => {
-        return await db.one(`insert into likes (user_id,post_id) values (${user_id},${post_id}) returning *`)
+    const addLike = async (user_id,post_id,post_username) => {
+        console.log('db')
+        console.log(post_username)
+        return await db.one(`insert into likes (user_id,post_id,post_username) values (${user_id},${post_id},'${post_username}') returning *`)
     }
 
     const getAllLikes = async () => {
