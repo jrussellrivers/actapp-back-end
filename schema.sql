@@ -121,7 +121,8 @@ VALUES
     ('Black Lives Matter','blm'),
     ('Climate Change','climate'),
     ('Political Representation','politics'),
-    ('USPS','usps');
+    ('Browse All','all')
+;
 
 insert into causes (cause,user_id) 
 VALUES
@@ -130,7 +131,7 @@ VALUES
     ('blm',3),
     ('climate',1),
     ('climate',2),
-    ('usps',1);
+    ('election',1);
 
 insert into policies (title, cause, description, dateProposed)
 
@@ -203,17 +204,16 @@ VALUES
     ('climate','Purchase a Reusable Item',5,'dstonem','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
     ('climate','Ride a Bike Instead of Drive (Three Times)',5,'dstonem','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
     ('climate','Carpool',5,'dstonem','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
-    ('climate','Full Recycling Bin!',5,'dstonem','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
+    ('climate','Plant a Tree',5,'dstonem','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
     ('climate','Ride Public Transit Five Times',5,'dstonem','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
-    --XXXXXXXXXXXX changes the label here to 'politics' to match the causes list
-    --('election','Vote Early',5,'dstonem','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
-    ('election','Vote By Mail',5,'dstonem','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
-    ('election','Attend a City/County Council Meeting',5,'dstonem','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
-    ('election','Support a Political Organization',5,'dstonem','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
-    ('election','Join a Political Organization',5,'dstonem','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
-    ('election','Sign a Petition',5,'dstonem','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
-    ('election','Learn About Local Politics',5,'dstonem','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
-    ('usps','Return 10 Pieces of Junk Mail',20,'For every 10 pieces of mail you return, $5 is raised for the USPS. It is your choice to write anything (or nothing) on the forms you are returning.','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,'');
+    ('politics','Vote Early',5,'dstonem','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
+    ('politics','Vote By Mail',5,'dstonem','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
+    ('politics','Attend a City/County Council Meeting',5,'dstonem','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
+    ('politics','Support a Political Organization',5,'dstonem','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
+    ('politics','Join a Political Organization',5,'dstonem','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
+    ('politics','Sign a Petition',5,'dstonem','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
+    ('politics','Learn About Local Politics',5,'dstonem','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,''),
+    ('politics','Return 10 Pieces of Junk Mail',20,'For every 10 pieces of mail you return, $5 is raised for the USPS. It is your choice to write anything (or nothing) on the forms you are returning.','/images/icons/blm_icon.png','http://yelp.com','https://www.vox.com/first-person/2020/5/28/21272380/black-mothers-grief-sadness-covid-19',true,'');
 
 insert into action_resources (name,url,pic,description,action_id)
 values 
@@ -222,28 +222,28 @@ values
         'https://www.yelp.com/search?find_desc=Black+Owned+Businesses&find_loc=${city}%2C+${state}&ns=1',
         '/images/map.png',
         'Click the image to find black-owned businesses in your area!',
-        1
+        2
     ),
     (
         'Apartment Therapy',
         'https://www.apartmenttherapy.com/shop-black-owned-businesses-36759922',
         '/images/apartment_therapy.jpg',
         'Accessorize your apartment in style with these black-owned businesses.',
-        1
+        2
     ),
     (
         'Etsy',
         'https://www.etsy.com/featured/blackownedshops?utm_source=google&utm_medium=cpc&utm_term=black%20owned%20businesses_e&utm_campaign=Search_US_Nonbrand_GGL_Politics_Social-Justice_New_LT_Exact&utm_ag=Black-Owned%2BShops&utm_custom1=_k_CjwKCAjw4rf6BRAvEiwAn2Q76mS6nTnAPKlrpGPLc5l2kOVGQPkLPVmQycgadigvXAR6jWHJkvvAuhoCf7gQAvD_BwE_k_&utm_content=go_10221881501_102356872975_439825159817_aud-301856855998:kwd-312223407776_c_&utm_custom2=10221881501&gclid=CjwKCAjw4rf6BRAvEiwAn2Q76mS6nTnAPKlrpGPLc5l2kOVGQPkLPVmQycgadigvXAR6jWHJkvvAuhoCf7gQAvD_BwE',
         '/images/etsy.jpg',
         'Shop black artisans on Etsy.',
-        1
+        2
     ),
     (
         'Black Owned Business Network',
         'https://www.blackownedbiz.com/directory/',
         '/images/blackbizowner.png',
         'Looking for more professional services? Explore one of the largest directories of black-owned businesses.',
-        1
+        2
     ),
     (
         'Volunteer Match',
@@ -251,26 +251,26 @@ values
         'https://www.volunteermatch.org/search?l=atlanta%2C+ga%2C+usa&cats=33',
         'https://upload.wikimedia.org/wikipedia/commons/e/ea/VolunteerMatch_official.png',
         'Find a volunteer opportunity near you, in any cause!',
-        5 -- vulunteer
+        6 -- vulunteer
     ),
     (
         'One Week of Vegetarian Meals', -- red-meat-free week
         'https://www.thespruceeats.com/best-vegetarian-meal-delivery-services-4768445',
         'https://cdn.hellofresh.com/de/cms/raf/hellofresh-logo.png',
         'Order a week of vegetarian meals from any of these popular meal services!',
-        7
+        8
     ),
     (
         'List of Reusable Items',
         'https://www.growingagreenfamily.com/50-reusable-goods-vs-disposable-goods/',
         'https://cdn.shopify.com/s/files/1/2237/5935/products/Bundle_Aqua_Set-1_25879b59-4530-4750-898e-0ea3542a68ec_1200x.jpg?v=1569076907',
         'Buy a reusable item and earn points!',
-        8
+        9
     ),
     (
         'Bike Share Programs Near You',
         'https://www.google.com/search?q=bike+share+programs+near+me&rlz=1C5CHFA_enUS903US905&oq=bike+share+programs+near+&aqs=chrome.1.69i57j33l6.4462j0j4&sourceid=chrome&ie=UTF-8',
         'https://media.wired.com/photos/59328fcc5c4fbd732b5538f4/master/w_660,c_limit/bike-share-660.jpg',
         'Ride a bike three times, post your bike share receipt or (safely) take photos of you biking to work!',
-        9
+        10
     )
