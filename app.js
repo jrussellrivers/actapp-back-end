@@ -271,6 +271,14 @@ app.get('/actions/resources/:actionId', async (req,res)=>{
     res.send(await Actions.findActionResources(req.params.actionId))
 })
 
+app.get('/actions/coordinated/actions', async (req,res)=>{
+    res.send(await Actions.getAllCoordActions())
+})
+
+app.get('/actions/coordinated/resources/:actionId', async (req,res)=>{
+    res.send(await Actions.findCoordActionResources(req.params.actionId))
+})
+
 ////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////
 // Points
