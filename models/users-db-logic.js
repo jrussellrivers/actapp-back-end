@@ -66,6 +66,10 @@ let User = () => {
         return await db.none(`UPDATE users SET points = '${value}' WHERE id = '${id}'`)
     }
 
+    const changeNoteDate = (timestamp, id) => {
+        return db.none(`UPDATE users SET notification_check = '${timestamp}' WHERE id = '${id}'`)
+    }
+
     //getOtherUser
 
     return {
@@ -79,7 +83,8 @@ let User = () => {
         searchUsers,
         addCause,
         getAllUserPics,
-        updatePoints
+        updatePoints,
+        changeNoteDate
     }
 }
 

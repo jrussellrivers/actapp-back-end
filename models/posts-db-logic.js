@@ -28,7 +28,8 @@ const Post = () => {
     }
 
     const addComment = async (comment,user_id,username,post_id,post_username) => {
-        return await db.any(`insert into comments (comment,user_id,username,post_id,post_username) values ('${comment}','${user_id}','${username}',${post_id},'${post_username}') returning *`)
+        let currentTime = new Date().toUTCString()
+        return await db.any(`insert into comments (comment,user_id,username,post_id,post_username,created_at) values ('${comment}','${user_id}','${username}',${post_id},'${post_username}','${currentTime}') returning *`)
     }
 
     const getLikesByPost = async (user_id,post_id) => {
@@ -48,10 +49,9 @@ const Post = () => {
         return alreadyLikes
     }
 
-    const addLike = async (user_id,post_id,post_username) => {
-        console.log('db')
-        console.log(post_username)
-        return await db.one(`insert into likes (user_id,post_id,post_username) values (${user_id},${post_id},'${post_username}') returning *`)
+    const addLike = async (user_id,post_id,post_username,username) => {
+        let currentTime = new Date().toUTCString()
+        return await db.one(`insert into likes (user_id,post_id,post_username,created_at,username) values (${user_id},${post_id},'${post_username}','${currentTime}','${username}') returning *`)
     }
 
     const getAllLikes = async () => {
