@@ -323,4 +323,9 @@ app.post('/addMyCommunity/:id/:username/:addId', async (req,res)=>{
     return res.send('Added')
 })
 
+app.post('/removeMyCommunity/:id/:addId', async (req,res)=>{
+    await User.removeMyCommunity(req.params.id, req.params.addId)
+    return res.send('Added')
+})
+
 app.listen(port)

@@ -73,6 +73,10 @@ let User = () => {
         return await db.one(`insert into my_community (user_id, username,created_at,adder_id) values (${id},'${username}','${currentTime}',${addId}) RETURNING *`)
     }
 
+    const removeMyCommunity = async (id, addId) =>{
+        return await db.none(`DELETE FROM my_community WHERE user_id=${id} AND adder_id=${addId}`)
+    }
+
     //getOtherUser
 
     return {
@@ -88,7 +92,8 @@ let User = () => {
         updatePoints,
         changeNoteDate,
         myCommunity,
-        addMyCommunity
+        addMyCommunity,
+        removeMyCommunity
     }
 }
 
