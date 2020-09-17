@@ -70,6 +70,15 @@ let User = () => {
         return db.none(`UPDATE users SET notification_check = '${timestamp}' WHERE id = '${id}'`)
     }
 
+    const myCommunity = async () =>{
+        return db.any(`SELECT * FROM my_community`)
+    }
+
+    const addMyCommunity = async (id, username, addId) =>{
+        let currentTime = new Date().toUTCString()
+        return await db.one(`insert into my_community (user_id, username,created_at,adder_id) values (${id},'${username}','${currentTime}',${addId}) RETURNING *`)
+    }
+
     //getOtherUser
 
     return {
@@ -84,7 +93,9 @@ let User = () => {
         addCause,
         getAllUserPics,
         updatePoints,
-        changeNoteDate
+        changeNoteDate,
+        myCommunity,
+        addMyCommunity
     }
 }
 

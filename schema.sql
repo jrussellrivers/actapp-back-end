@@ -115,6 +115,15 @@ create table likes (
     username text REFERENCES users (username)
 );
 
+create table my_community (
+    user_id integer references users (id),
+    -- user_id ties to person who is being added
+    created_at VARCHAR,
+    username text REFERENCES users (username),
+    -- username ties to person who did the adding
+    adder_id integer references users (id)
+);
+
 create table comments (
     id serial primary key,
     comment text not null,
