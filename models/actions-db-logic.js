@@ -19,7 +19,15 @@ const Actions = () => {
     }
 
     const findActionResources = async actionId => {
-        return await db.any(`select * from action_resources where action_id = ${actionId}`)
+        return await db.one(`select * from action_resources where action_id = ${actionId}`)
+    }
+
+    const getAllCoordActions = async () => {
+        return await db.any(`select * from coordinated_actions`)
+    }
+
+    const findCoordActionResources = async actionId => {
+        return await db.one(`select * from coordinated_action_resources where action_id = ${actionId}`)
     }
 
     return {
@@ -27,7 +35,9 @@ const Actions = () => {
         getAllActions,
         getActionsByCause,
         getActionById,
-        findActionResources
+        findActionResources,
+        getAllCoordActions,
+        findCoordActionResources
     }
 }
 
