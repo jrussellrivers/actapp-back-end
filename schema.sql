@@ -19,7 +19,7 @@ create table users (
     race text not null,
     gender text not null,
     birthdate date not null,
-    notification_check TIMESTAMP DEFAULT null
+    notification_check VARCHAR
 );
 
 create table causes_list (
@@ -89,13 +89,14 @@ create table likes (
     user_id integer references users (id),
     post_id integer references posts (id),
     post_username VARCHAR references users (username),
-    created_at timestamp default now()
+    created_at VARCHAR,
+    username text REFERENCES users (username)
 );
 
 create table comments (
     id serial primary key,
     comment text not null,
-    created_at timestamp default now(),
+    created_at VARCHAR,
     post_id integer references posts (id),
     post_username VARCHAR references users (username),
     user_id integer references users (id),

@@ -93,8 +93,9 @@ app.post('/users/register', async function(req, res, next){
     const saltHash = utils.genPassword(req.body.password);    
     const salt = saltHash.salt;
     const hash = saltHash.hash;
+    let currentTime = new Date().toUTCString()
 
-    const registeredUser = await db.one(`INSERT INTO users (username,password,salt,firstName,lastName,email,streetaddress,city,state,zipcode,race,gender,birthdate) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13) RETURNING *`,[req.body.username,hash,salt,req.body.firstName,req.body.lastName,req.body.email,req.body.streetAddress,req.body.city,req.body.state,req.body.zipcode,req.body.race,req.body.gender,req.body.birthdate])
+    const registeredUser = await db.one(`INSERT INTO users (username,password,salt,firstName,lastName,email,streetaddress,city,state,zipcode,race,gender,birthdate,notification_check) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14) RETURNING *`,[req.body.username,hash,salt,req.body.firstName,req.body.lastName,req.body.email,req.body.streetAddress,req.body.city,req.body.state,req.body.zipcode,req.body.race,req.body.gender,req.body.birthdate,currentTime])
     res.send(registeredUser)
 });
 
@@ -138,6 +139,11 @@ app.get('/searchUsers/', async (req, res, next) => {
 app.get('/userpics', async (req,res)=>{
     let pics = await User.getAllUserPics()
     res.send(pics)
+})
+
+app.post('/changeNoteDate/:timestamp/:user_id', (req,res)=>{
+    User.changeNoteDate(req.params.timestamp, req.params.user_id)
+    return res.send('done')
 })
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -230,9 +236,8 @@ app.get('/likes', async (req,res)=>{
     res.send(likes)
 })
 
-app.post('/addLike/:postId/:userId/:postUsername', async (req,res)=>{
-    console.log('fetch')
-    let addedLike = await Post.addLike(req.params.userId,req.params.postId,req.params.postUsername)
+app.post('/addLike/:postId/:userId/:postUsername/:username', async (req,res)=>{
+    let addedLike = await Post.addLike(req.params.userId,req.params.postId,req.params.postUsername,req.params.username)
     return res.send(addedLike)
 })
 
