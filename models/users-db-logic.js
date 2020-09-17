@@ -28,12 +28,6 @@ let User = () => {
         return await db.one(`select (firstTimeUser) from users where username = '${username}'`)
     }
 
-    const storeUsersCauses = async (cause1,cause2,cause3,username) => {
-        let causes = await db.one(`UPDATE users SET cause_one = '${cause1}', cause_two = '${cause2}', cause_three = '${cause3}' WHERE username = '${username}' RETURNING *`)
-        console.log(causes)
-        return causes
-    }
-
     const updateProfilePic = async (profile_pic_url,user_id) => {
         return await db.none(`UPDATE users SET profilePic = '${profile_pic_url}' WHERE id = '${user_id}'`)
     }
@@ -84,7 +78,6 @@ let User = () => {
     return {
         // register,
         login,
-        storeUsersCauses,
         updateProfilePic,
         getUser,
         getUserById,

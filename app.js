@@ -256,6 +256,13 @@ app.get('/causes', async (req,res)=>{
     res.send(await Actions.getAllCauses())
 })
 
+app.get('/causes/users', async (req,res)=>{
+    
+    const causes = await Actions.getAllUsersCauses()
+    console.log(causes)
+    res.send(causes)
+})
+
 app.get('/actions/:cause', async (req,res)=>{
     res.send(await Actions.getActionsByCause(req.params.cause))
 })

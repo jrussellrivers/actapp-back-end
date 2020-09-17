@@ -6,6 +6,10 @@ const Actions = () => {
         return await db.any('select * from causes_list')
     }
 
+    const getAllUsersCauses = async () => {
+        return await db.any(`select * from causes`)
+    }
+
     const getAllActions = async () => {
         return await db.any('select * from actions')
     }
@@ -32,6 +36,7 @@ const Actions = () => {
 
     return {
         getAllCauses,
+        getAllUsersCauses,
         getAllActions,
         getActionsByCause,
         getActionById,
