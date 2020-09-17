@@ -158,7 +158,7 @@ VALUES
     ('blm',3),
     ('climate',1),
     ('climate',2),
-    ('election',1);
+    ('politics',1);
 
 insert into policies (title, cause, description, dateProposed)
 
