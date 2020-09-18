@@ -31,6 +31,10 @@ let User = () => {
     const updateProfilePic = async (profile_pic_url,user_id) => {
         return await db.none(`UPDATE users SET profilePic = '${profile_pic_url}' WHERE id = '${user_id}'`)
     }
+
+    const updateUserInfo = async (streetaddress,city,state,zipcode,user_id) => {
+        return await db.one(`UPDATE users SET streetaddress = '${streetaddress}', city = '${city}', state = '${state}', zipcode = '${zipcode}' WHERE id = '${user_id}' returning (streetaddress,city,state,zipcode)`)
+    }
         
     const getUser = async (username) => {
         return await db.one(`SELECT * FROM users WHERE username = '${username}'`)
@@ -48,12 +52,24 @@ let User = () => {
         return await db.any(`SELECT id, profilePic FROM users`)
     }
 
+    const getUserPic = async user_id => {
+        return await db.one(`SELECT profilePic FROM users where id = '${user_id}'`)
+    }
+
     const searchUsers = async (searchText) => {
         return await db.any(`SELECT * FROM users where username like '${searchText}'`)
     }
 
     const addCause = async (name, user_id) => {
         return await db.one(`insert into causes (cause, user_id) values ('${name}','${user_id}') RETURNING *`)
+    }
+
+    const getUsersCauses = async (user_id) => {
+        return await db.any(`SELECT * FROM causes where user_id = '${user_id}'`)
+    }
+
+    const updateUsersCauses = async (name, user_id) => {
+        return await db.none(`insert into causes (cause, user_id) values ('${name}','${user_id}') RETURNING *`)
     }
 
     const updatePoints = async (value, id) => {
@@ -83,12 +99,14 @@ let User = () => {
         // register,
         login,
         updateProfilePic,
+        updateUserInfo,
         getUser,
         getUserById,
         getAllUsers,
         searchUsers,
         addCause,
         getAllUserPics,
+        getUserPic,
         updatePoints,
         changeNoteDate,
         myCommunity,
