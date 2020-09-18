@@ -119,6 +119,12 @@ app.post('/user/profilePic/:user_id', async (req,res)=>{
     res.send('file uplaoded')
 })
 
+app.post('/user/updateInfo/:user_id', async (req,res)=>{
+    let updatedInfo = await User.updateUserInfo(req.body.streetAddress, req.body.city, req.body.state, req.body.zipcode, req.params.user_id)
+    console.log(updatedInfo)
+    res.send(updatedInfo)
+})
+
 app.get('/user/:id', async (req,res)=>{
     let user = await User.getUserById(req.params.id)
     res.send(user)
@@ -139,6 +145,11 @@ app.get('/searchUsers/', async (req, res, next) => {
 app.get('/userpics', async (req,res)=>{
     let pics = await User.getAllUserPics()
     res.send(pics)
+})
+
+app.get('/userpics/:user_id', async (req,res)=>{
+    let pic = await User.getUserPic(req.params.user_id)
+    res.send(pic)
 })
 
 app.post('/changeNoteDate/:timestamp/:user_id', (req,res)=>{
