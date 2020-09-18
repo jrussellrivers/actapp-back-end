@@ -60,16 +60,34 @@ let User = () => {
         return await db.any(`SELECT * FROM users where username like '${searchText}'`)
     }
 
-    const addCause = async (name, user_id) => {
-        return await db.one(`insert into causes (cause, user_id) values ('${name}','${user_id}') RETURNING *`)
+    const addCause = async (cause, user_id) => {
+        let causeExists = await getCause(cause,user_id)
+        console.log(causeExists,'65')
+        if(causeExists === true){
+            return false
+        } else {
+            console.log('here')
+            return await db.one(`insert into causes (cause, user_id) values ('${cause}','${user_id}') RETURNING *`)
+        }
     }
 
-    const getUsersCauses = async (user_id) => {
-        return await db.any(`SELECT * FROM causes where user_id = '${user_id}'`)
+    const getCause = async (cause,user_id) => {
+        let causeExists = await db.oneOrNone(`SELECT * FROM causes where cause = '${cause}' AND user_id = '${user_id}'`)
+        console.log(causeExists,'76')
+        if(causeExists) {
+            return true
+        } else {
+            return false
+        }
     }
 
-    const updateUsersCauses = async (name, user_id) => {
-        return await db.none(`insert into causes (cause, user_id) values ('${name}','${user_id}') RETURNING *`)
+    const deleteCause = async (cause, user_id) => {
+        let causeExists = await getCause(cause,user_id)
+        if(causeExists){
+            return await db.one(`delete from causes where cause = '${cause}' AND user_id = '${user_id}' RETURNING *`)
+        } else {
+            return true
+        }
     }
 
     const updatePoints = async (value, id) => {
@@ -109,6 +127,7 @@ let User = () => {
         getAllUsers,
         searchUsers,
         addCause,
+        deleteCause,
         getAllUserPics,
         getUserPic,
         updatePoints,

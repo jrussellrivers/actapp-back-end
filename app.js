@@ -125,6 +125,12 @@ app.post('/user/updateInfo/:user_id', async (req,res)=>{
     res.send(updatedInfo)
 })
 
+
+app.post('/user/delCause/:cause_name/:user_id', async (req,res)=>{
+    res.send(await User.deleteCause(req.params.cause_name,req.params.user_id))
+})
+
+
 app.get('/user/:id', async (req,res)=>{
     let user = await User.getUserById(req.params.id)
     res.send(user)
@@ -265,10 +271,7 @@ app.get('/causes', async (req,res)=>{
 })
 
 app.get('/causes/users', async (req,res)=>{
-    
-    const causes = await Actions.getAllUsersCauses()
-    console.log(causes)
-    res.send(causes)
+    res.send(await Actions.getAllUsersCauses())
 })
 
 app.get('/actions/:cause', async (req,res)=>{
