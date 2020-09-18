@@ -93,6 +93,10 @@ let User = () => {
         return await db.none(`DELETE FROM my_community WHERE user_id=${id} AND adder_id=${addId}`)
     }
 
+    const communityById = async (id) =>{
+        return db.any(`SELECT * FROM my_community WHERE adder_id='${id}'`)
+    }
+
     //getOtherUser
 
     return {
@@ -111,7 +115,8 @@ let User = () => {
         changeNoteDate,
         myCommunity,
         addMyCommunity,
-        removeMyCommunity
+        removeMyCommunity,
+        communityById
     }
 }
 
