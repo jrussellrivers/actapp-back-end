@@ -125,10 +125,7 @@ app.get('/user/:id', async (req,res)=>{
 })
 
 app.get('/searchUsers/', async (req, res, next) => {
-    // if (req.isAuthenticated()) {
-        console.log('136')
         const users = await User.getAllUsers()
-        console.log(users,'138')
         res.send(users);
     // } else {
     //     // Not authorized
@@ -326,6 +323,10 @@ app.post('/addMyCommunity/:id/:username/:addId', async (req,res)=>{
 app.post('/removeMyCommunity/:id/:addId', async (req,res)=>{
     await User.removeMyCommunity(req.params.id, req.params.addId)
     return res.send('Added')
+})
+
+app.get('/communityById/:id', async (req,res)=>{
+    res.send(await User.communityById(req.params.id))
 })
 
 app.listen(port)
