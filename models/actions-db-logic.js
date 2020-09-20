@@ -23,7 +23,7 @@ const Actions = () => {
     }
 
     const findActionResources = async actionId => {
-        return await db.one(`select * from action_resources where action_id = ${actionId}`)
+        return await db.any(`select * from action_resources where action_id = ${actionId}`)
     }
 
     const getAllCoordActions = async () => {
@@ -31,7 +31,10 @@ const Actions = () => {
     }
 
     const findCoordActionResources = async actionId => {
-        return await db.one(`select * from coordinated_action_resources where action_id = ${actionId}`)
+        console.log(actionId,'34')
+        let resources = await db.any(`select * from coordinated_action_resources where action_id = ${actionId}`)
+        console.log(resources,'36')
+        return resources
     }
 
     return {

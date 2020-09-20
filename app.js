@@ -120,7 +120,7 @@ app.post('/user/profilePic/:user_id', async (req,res)=>{
 })
 
 app.post('/user/updateInfo/:user_id', async (req,res)=>{
-    let updatedInfo = await User.updateUserInfo(req.body.streetAddress, req.body.city, req.body.state, req.body.zipcode, req.params.user_id)
+    let updatedInfo = await User.updateUserInfo(req.body.streetaddress, req.body.city, req.body.state, req.body.zipcode, req.params.user_id)
     console.log(updatedInfo)
     res.send(updatedInfo)
 })
@@ -300,6 +300,7 @@ app.get('/actions/coordinated/actions', async (req,res)=>{
 })
 
 app.get('/actions/coordinated/resources/:actionId', async (req,res)=>{
+    console.log('303')
     res.send(await Actions.findCoordActionResources(req.params.actionId))
 })
 
