@@ -6,10 +6,10 @@ create table users (
     firstName text not null,
     lastName text not null,
     email VARCHAR UNIQUE not null,
-    streetaddress VARCHAR not null,
-    city VARCHAR not null,
-    state VARCHAR not null,
-    zipcode VARCHAR not null,
+    streetaddress VARCHAR,
+    city VARCHAR,
+    state VARCHAR,
+    zipcode VARCHAR,
     -- this is where the person's representation info will go
     nextElectionDate date,
     pollingPlace varchar,
@@ -303,6 +303,8 @@ VALUES
     true,
     ''),
 
+    
+
     ('climate',
     'Ride a Bike Instead of Drive (Three Times)',
     5,
@@ -457,7 +459,7 @@ values
     (
         'Volunteer Match',
         --XXXXXXXXXX need to change on the frontend, plus these have different categories
-        'https://www.volunteermatch.org/search?l=atlanta%2C+ga%2C+usa&cats=33',
+        'https://www.volunteermatch.org/search?l=${city}%2C+${state}%2C+usa&cats=33',
         'https://upload.wikimedia.org/wikipedia/commons/e/ea/VolunteerMatch_official.png',
         'Find a volunteer opportunity near you, in any cause!',
         6 -- vulunteer
@@ -476,6 +478,14 @@ values
         'Buy a reusable item and earn points!',
         9
     ),
+    (
+        'Sustainable Cleaning Products',
+        'https://www.ispot.tv/ad/Z5uA/blueland-better-way-to-clean',
+        'https://cdn.shopify.com/s/files/1/2237/5935/products/Bundle_Aqua_Set-1_25879b59-4530-4750-898e-0ea3542a68ec_1200x.jpg?v=1569076907',
+        'Buy a reusable item and earn points!',
+        9
+    ),
+
     (
         'Bike Share Programs Near You',
         'https://www.google.com/search?q=bike+share+programs+near+me&rlz=1C5CHFA_enUS903US905&oq=bike+share+programs+near+&aqs=chrome.1.69i57j33l6.4462j0j4&sourceid=chrome&ie=UTF-8',
@@ -517,10 +527,10 @@ VALUES
 insert into coordinated_action_resources (name,url,pic,description,action_id)
 values 
     (
-        'Find a Business Near You',
-        'https://www.yelp.com/search?find_desc=Black+Owned+Businesses&find_loc=${city}%2C+${state}&ns=1',
-        '/images/map.png',
-        'Click the image to find black-owned businesses in your area!',
+        'Get Your Personalized Voting Information',
+        'https://www.vote411.org',
+        'https://www.vote411.org/themes/basic/images/VOTE411-SocialMedia-Share.png',
+        'Find your polling place, early voting locations, and election date information.',
         1
     ),
     (

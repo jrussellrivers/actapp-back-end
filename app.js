@@ -120,10 +120,16 @@ app.post('/user/profilePic/:user_id', async (req,res)=>{
 })
 
 app.post('/user/updateInfo/:user_id', async (req,res)=>{
-    let updatedInfo = await User.updateUserInfo(req.body.streetAddress, req.body.city, req.body.state, req.body.zipcode, req.params.user_id)
+    let updatedInfo = await User.updateUserInfo(req.body.streetaddress, req.body.city, req.body.state, req.body.zipcode, req.params.user_id)
     console.log(updatedInfo)
     res.send(updatedInfo)
 })
+
+
+app.post('/user/delCause/:cause_name/:user_id', async (req,res)=>{
+    res.send(await User.deleteCause(req.params.cause_name,req.params.user_id))
+})
+
 
 app.get('/user/:id', async (req,res)=>{
     let user = await User.getUserById(req.params.id)
@@ -265,10 +271,7 @@ app.get('/causes', async (req,res)=>{
 })
 
 app.get('/causes/users', async (req,res)=>{
-    
-    const causes = await Actions.getAllUsersCauses()
-    console.log(causes)
-    res.send(causes)
+    res.send(await Actions.getAllUsersCauses())
 })
 
 app.get('/actions/:cause', async (req,res)=>{
@@ -297,6 +300,7 @@ app.get('/actions/coordinated/actions', async (req,res)=>{
 })
 
 app.get('/actions/coordinated/resources/:actionId', async (req,res)=>{
+    console.log('303')
     res.send(await Actions.findCoordActionResources(req.params.actionId))
 })
 
