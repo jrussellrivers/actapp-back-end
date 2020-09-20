@@ -472,17 +472,25 @@ values
         8
     ),
     (
-        'List of Reusable Items',
+        'Switch to a Reusable Items',
         'https://www.growingagreenfamily.com/50-reusable-goods-vs-disposable-goods/',
-        'https://cdn.shopify.com/s/files/1/2237/5935/products/Bundle_Aqua_Set-1_25879b59-4530-4750-898e-0ea3542a68ec_1200x.jpg?v=1569076907',
-        'Buy a reusable item and earn points!',
+        'https://www.growingagreenfamily.com/wp-content/uploads/2013/04/Steel-Mason-Jar-Soap-Pump-Lotion-Dispenser.jpg',
+        'Buy a reusable item, post your receipt, and earn points!',
         9
     ),
     (
         'Sustainable Cleaning Products',
         'https://www.ispot.tv/ad/Z5uA/blueland-better-way-to-clean',
-        'https://cdn.shopify.com/s/files/1/2237/5935/products/Bundle_Aqua_Set-1_25879b59-4530-4750-898e-0ea3542a68ec_1200x.jpg?v=1569076907',
-        'Buy a reusable item and earn points!',
+        'https://cdn.shopify.com/s/files/1/0057/9158/0227/files/BL_Laundry_Export-File_1x1_02v5_2000x.jpg?v=1597350526',
+        'Buy Blueland sustainable clearning products, post your receipt, and earn points!',
+        9
+    ),
+
+    (
+        'Switch to Sustainable TP',
+        'https://reelpaper.com/',
+        'https://cdn.shopify.com/s/files/1/0035/9468/2435/files/hero-desktop-2x_1200x@2x.progressive.jpg?v=1586706823',
+        'Buy sustainable toilet paper made from bamboo, post your receipt, and earn points!',
         9
     ),
 
