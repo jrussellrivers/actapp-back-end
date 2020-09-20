@@ -48,6 +48,10 @@ let User = () => {
         return await db.any(`SELECT id, profilePic FROM users`)
     }
 
+    const getUserPic = async (id) => {
+        return await db.any(`SELECT profilePic FROM users where id='${id}'`)
+    }
+
     const searchUsers = async (searchText) => {
         return await db.any(`SELECT * FROM users where username like '${searchText}'`)
     }
@@ -98,7 +102,8 @@ let User = () => {
         myCommunity,
         addMyCommunity,
         removeMyCommunity,
-        communityById
+        communityById,
+        getUserPic
     }
 }
 

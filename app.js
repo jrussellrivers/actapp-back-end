@@ -138,6 +138,11 @@ app.get('/userpics', async (req,res)=>{
     res.send(pics)
 })
 
+app.get('/userpics/:id', async (req,res)=>{
+    let pics = await User.getUserPic(req.params.id)
+    res.send(pics)
+})
+
 app.post('/changeNoteDate/:timestamp/:user_id', (req,res)=>{
     User.changeNoteDate(req.params.timestamp, req.params.user_id)
     return res.send('done')
