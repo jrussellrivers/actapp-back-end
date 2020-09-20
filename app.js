@@ -119,6 +119,18 @@ app.post('/user/profilePic/:user_id', async (req,res)=>{
     res.send('file uplaoded')
 })
 
+app.post('/user/updateInfo/:user_id', async (req,res)=>{
+    let updatedInfo = await User.updateUserInfo(req.body.streetaddress, req.body.city, req.body.state, req.body.zipcode, req.params.user_id)
+    console.log(updatedInfo)
+    res.send(updatedInfo)
+})
+
+
+app.post('/user/delCause/:cause_name/:user_id', async (req,res)=>{
+    res.send(await User.deleteCause(req.params.cause_name,req.params.user_id))
+})
+
+
 app.get('/user/:id', async (req,res)=>{
     let user = await User.getUserById(req.params.id)
     res.send(user)
@@ -138,9 +150,9 @@ app.get('/userpics', async (req,res)=>{
     res.send(pics)
 })
 
-app.get('/userpics/:id', async (req,res)=>{
-    let pics = await User.getUserPic(req.params.id)
-    res.send(pics)
+app.get('/userpics/:user_id', async (req,res)=>{
+    let pic = await User.getUserPic(req.params.user_id)
+    res.send(pic)
 })
 
 app.post('/changeNoteDate/:timestamp/:user_id', (req,res)=>{
@@ -259,10 +271,7 @@ app.get('/causes', async (req,res)=>{
 })
 
 app.get('/causes/users', async (req,res)=>{
-    
-    const causes = await Actions.getAllUsersCauses()
-    console.log(causes)
-    res.send(causes)
+    res.send(await Actions.getAllUsersCauses())
 })
 
 app.get('/actions/:cause', async (req,res)=>{
@@ -291,6 +300,7 @@ app.get('/actions/coordinated/actions', async (req,res)=>{
 })
 
 app.get('/actions/coordinated/resources/:actionId', async (req,res)=>{
+    console.log('303')
     res.send(await Actions.findCoordActionResources(req.params.actionId))
 })
 
