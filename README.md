@@ -5,7 +5,7 @@
 ## Link to front-end code: https://github.com/dstonem/actapp_capstone_react_native
 
 ## Overview: 
-Insert summary here dylan 
+Actapp is a social media experience with tailored resources to help people take action, communities of people who care about the same issues, and an online culture of hope and real, measurable action.
 
 ## The Team:
 ### Dylan Stone-Miller: https://github.com/dstonem
