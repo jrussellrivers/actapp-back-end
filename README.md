@@ -7,6 +7,11 @@
 ## Overview: 
 Actapp is a social media experience with tailored resources to help people take action, communities of people who care about the same issues, and an online culture of hope and real, measurable action.
 
+## Directions for use:
+### If you do not want to register, log into the site using the following information:
+**Username:** demo  
+**Password:** demo
+
 ## The Team:
 ### Dylan Stone-Miller: https://github.com/dstonem
 **Primary team role:** Team Lead; Front-End markup and styling, Javascript Function writer
